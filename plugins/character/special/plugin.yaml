@@ -1,0 +1,11 @@
+plugin:
+    name: 'character.special::lang.plugin.name'
+    description: 'character.special::lang.plugin.description'
+    author: character
+    icon: oc-icon-circle-o
+    homepage: ''
+navigation:
+    main-menu-item:
+        label: 'Menu Item'
+        url: /character/special/specials
+        icon: icon-adn

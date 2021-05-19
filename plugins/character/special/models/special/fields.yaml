@@ -1,0 +1,15 @@
+fields:
+    name:
+        label: Name
+        span: full
+        placeholder: 'Your Name'
+        type: text
+    age:
+        label: Age
+        span: full
+        placeholder: 'Your Age'
+        type: text
+    address:
+        label: Address
+        span: full
+        type: text

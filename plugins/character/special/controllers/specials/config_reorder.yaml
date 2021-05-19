@@ -1,0 +1,4 @@
+title: Specials
+modelClass: Character\Special\Models\Special
+toolbar:
+    buttons: reorder_toolbar

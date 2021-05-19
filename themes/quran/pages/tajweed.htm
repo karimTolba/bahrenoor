@@ -1,0 +1,586 @@
+title = "tajweedold"
+url = "/tajweedold"
+layout = "en_layout"
+is_hidden = 0
+==
+<link rel="preconnect" href="https://fonts.gstatic.com"> 
+
+<style scoped>
+
+    nav{
+
+        position: static;
+
+    }
+
+    .container-fluid , .row{
+
+        padding: 0px;
+
+    }
+    .container-fluid{
+
+        margin: 50px 0px 0px 0px;
+        padding-right : 30px;
+
+    }
+
+   .col-lg-9 , .col-lg-3{
+
+    height : 500px;
+    padding : 0px;
+
+   }
+
+   #side_bar{
+
+    height : 250px;
+    width : 45%;
+    margin-top: 100px;
+    padding-top : 10px;
+    border-radius: 0px 20px 20px 0px;
+   }
+   #side_bar li{
+
+    display : block;
+    border: 3px solid;
+    padding : 20px 0px 20px 20px;
+
+   }
+
+   #side_bar li a{
+
+    font-size : 15px;
+    font-weight: bold;
+    cursor: pointer;
+    color : black;
+
+   }
+   #side_bar li a:hover{
+
+    text-decoration: none;
+
+   }
+   #lesson1 , #lesson2 , #lesson3{
+
+    font-size: 40px; 
+    text-align : center;
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight :bold;
+
+   }
+   #lesson2 , #lesson3 , #lesson4{
+
+    display : none;
+    text-align : center;
+
+   }
+   #footer{
+
+    padding-left : 30px;
+    margin-top : 400px;
+
+   }
+   sup{
+
+    color : red;
+
+   }
+   #lesson1 table tbody tr td ,#lesson2 table tbody tr td , #lesson3 table tbody tr td{
+
+    cursor: pointer;
+    background-color: #ffff99;
+    border : 2px solid;
+
+   }
+   .a{
+
+    color :lightseagreen;
+
+   }
+   .b{
+
+    color :red;
+    
+   }
+
+   @media(max-width: 1000px){
+
+    #lesson1{
+
+        font-size : 17px;
+
+    }
+    .col-lg-3{
+
+        height : 300px;
+        padding : 0px;
+        margin : 0px;
+
+    }
+  
+    #side_bar{
+
+        width :40%;
+        margin-top : 20px;
+        height : 225px;
+    }
+    #side_bar li a{
+
+        font-size : 15px;
+
+    }
+    .table{
+
+        width : 80%;
+        margin : 30px auto;
+    }
+    #footer_text{
+
+        padding-right : 10px;
+
+    }
+    .container-fluid{
+
+        padding: 0px;
+        margin: 0px;
+    }
+
+    #footer{
+
+        margin-top : 70px;
+        padding-left:10px ;
+
+    }
+
+   }
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-3 col-md-12 col-sm-12">
+            <ul id="side_bar">
+                <li style="border-radius : 0px 20px 0px 0px">
+                    <a class="a" onclick="show('1')">Alphabet</a>
+                </li>
+                <li>
+                    <a class="a" onclick="show('2')">Pronunciation <br /> (tashkeel)</a>
+                </li>
+                <li>
+                    <a class="a" onclick="show('3')">Pronunciation <br /> (tanween)</a>
+                </li>
+                <li style="border-radius: 0px 0px 20px 0px;">
+                    <a class="a" onclick="show('4')">Short words</a>
+                </li>
+            </ul>
+        </div>
+        <audio id="audio" src="" onended="reset()"></audio>
+        <div class="col-lg-9 col-md-12 col-sm-12">
+
+            <div id="lesson1">
+                <h1 style="text-align: center;">Alphabet</h1>
+                <p style="text-align: center;font-size : 20px">To Learn about each letter press the buttons</p>
+                <table class="table table-bordered" style="border-radius : 20px" dir="rtl">
+                    <tbody>
+                        <tr>
+                            <td class="lesson1_items" onclick="listen_audio('Alif' , 0)"><span class="alph">أ </span><sup>alif</sup></td>
+                            <td class="lesson1_items" onclick="listen_audio('Alif' , 1 )"><span class="alph">ب </span><sup>baa</sup</td>
+                            <td class="lesson1_items" onclick="listen_audio('Alif' , 2)"><span class="alph">ت </span><sup>taa</sup</td>
+                            <td class="lesson1_items" onclick="listen_audio('Alif' , 3)"><span class="alph">ث </span><sup>thaa</sup</td>
+                        </tr>
+                        <tr>
+                            <td class="lesson1_items" onclick="listen_audio('Alif' , 4)"><span class="alph">ج </span><sup>geem</sup</td>
+                            <td class="lesson1_items" onclick="listen_audio('Alif' , 5)"><span class="alph">ح </span><sup>haa</sup</td>
+                            <td class="lesson1_items" onclick="listen_audio('Alif' , 6)"><span class="alph">خ </span><sup>khaa</sup</td>
+                            <td class="lesson1_items" onclick="listen_audio('Alif' , 7)"><span class="alph">د </span><sup>dal</sup</td>
+                        </tr>
+                        <tr>
+                            <td class="lesson1_items" onclick="listen_audio('Alif' , 8)"><span class="alph">ذ </span><sup>zal</sup</td>
+                            <td class="lesson1_items" onclick="listen_audio('Alif' , 9)"><span class="alph">ر </span><sup>raa</sup</td>
+                            <td class="lesson1_items" onclick="listen_audio('Alif' , 10)"><span class="alph">ز </span><sup>zeen</sup</td>
+                            <td class="lesson1_items" onclick="listen_audio('Alif', 11)"><span class="alph">س </span><sup>seen</sup</td>
+                        </tr>
+                        <tr>
+                            <td class="lesson1_items" onclick="listen_audio('Alif' , 12)"><span class="alph">ش </span><sup>sheen</sup</td>
+                            <td class="lesson1_items" onclick="listen_audio('Alif' , 13)"><span class="alph">ص </span><sup>sad</sup</td>
+                            <td class="lesson1_items" onclick="listen_audio('Alif' , 14)"><span class="alph">ض </span><sup>dad</sup</td>
+                            <td class="lesson1_items" onclick="listen_audio('Alif' , 15)"><span class="alph">ط </span><sup>taa</sup</td>
+                        </tr>
+                        <tr>
+                            <td class="lesson1_items" onclick="listen_audio('Alif' , 16)"><span class="alph">ظ </span><sup>zaa</sup</td>
+                            <td class="lesson1_items" onclick="listen_audio('Alif' , 17)"><span class="alph">ع </span><sup>een</sup</td>
+                            <td class="lesson1_items" onclick="listen_audio('Alif' , 18)"><span class="alph">غ </span><sup>ghen</sup</td>
+                            <td class="lesson1_items" onclick="listen_audio('Alif' , 19)"><span class="alph">ف </span><sup>faa</sup</td>
+                        </tr>
+                        <tr>
+                            <td class="lesson1_items" onclick="listen_audio('Alif' , 20)"><span class="alph">ق </span><sup>caaf</sup</td>
+                            <td class="lesson1_items" onclick="listen_audio('Alif' , 21)"><span class="alph">ك </span><sup>kaaf</sup</td>
+                            <td class="lesson1_items" onclick="listen_audio('Alif' , 22)"><span class="alph">ل </span><sup>laam</sup</td>
+                            <td class="lesson1_items" onclick="listen_audio('Alif' , 23)"><span class="alph">م </span><sup>meem</sup</td>
+                        </tr>
+                        <tr>
+                            <td class="lesson1_items" onclick="listen_audio('Alif' , 24)"><span class="alph">ن </span><sup>noon</sup</td>
+                            <td class="lesson1_items" onclick="listen_audio('Alif' , 25)"><span class="alph">هـ </span><sup>ha</sup</td>
+                            <td class="lesson1_items" onclick="listen_audio('Alif' , 26)"><span class="alph">و </span><sup>waw</sup</td>
+                            <td class="lesson1_items" onclick="listen_audio('Alif' , 27)"><span class="alph">ى </span><sup>yaa</sup</td>
+                        </tr>
+                        <tr>
+                            <td class="lesson1_items" onclick="listen_audio('Alif' , 28)" colspan="4"><span class="alph">ء </span><sup>hamza</sup></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="lesson2">
+                <h1 style="text-align: center;">Pronunciation (tashkeel)</h1>
+                <p style="text-align: center;font-size : 20px">To learn how to pronounce each letter click each letter</p>
+                <table class="table table-bordered" style="border-radius : 20px" dir="rtl">
+                    <tbody>
+                        <tr>
+                            <td class="pron_items" onclick="listen_audio('les2_aa' , 0)"><span class="a">ءَ</span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_ae' , 1)"><span class="a">ءِ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_au' , 2)"><span class="a">ءُ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_ba' , 3)"><span class="b">بَ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_be' , 4)"><span class="b">بِ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_bu' , 5)"><span class="b">بُ </span></td>
+                        </tr>
+                        <tr>
+                            <td class="pron_items" onclick="listen_audio('les2_ta' , 6)"><span class="b">تَ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_te' , 7)"><span class="b">تِ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_tu' , 8)"><span class="b">تُ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_tha' , 9)"><span class="a">ثَ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_the' , 10)"><span class="a">ثِ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_thu' , 11)"><span class="a">ثُ </span></td>
+                        </tr>
+                        <tr>
+                            <td class="pron_items" onclick="listen_audio('les2_ja' , 12)"><span class="b">جَ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_je' , 13)"><span class="b">جِ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_ju' , 14)"><span class="b">جُ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_ha' , 15)"><span class="a">حَ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_he' , 16)"><span class="a">حِ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_hu' , 17)"><span class="a">حُ </span></td>
+                        </tr>
+                        <tr>
+                            <td class="pron_items" onclick="listen_audio('les2_kha' , 18)"><span class="b">خَ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_khe' , 19)"><span class="b">خِ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_khu' , 20)"><span class="b">خُ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_da' , 21)"><span class="a">دَ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_de' , 22)"><span class="a">دِ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_du' , 23)"><span class="a">دُ </span></td>
+                        </tr>
+                        <tr>
+                            <td class="pron_items" onclick="listen_audio('les2_za' , 24)"><span class="b">ذَ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_ze' , 25)"><span class="b">ذِ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_zu' , 26)"><span class="b">ذُ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_ra' , 27)"><span class="a">رَ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_re' , 28)"><span class="a">رِ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_ru' , 29)"><span class="a">رُ </span></td>
+                        </tr>
+                        <tr>
+                            <td class="pron_items" onclick="listen_audio('les2_zza' , 30)"><span class="b">زَ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_zze' , 31)"><span class="b">زِ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_zzu' , 32)"><span class="b">زُ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_sa' , 33)"><span class="a">سَ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_se' , 34)"><span class="a">سِ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_su' , 35)"><span class="a">سُ </span></td>
+                        </tr>
+                        <tr>
+                            <td class="pron_items" onclick="listen_audio('les2_sha' , 36)"><span class="b">شَ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_she' , 37)"><span class="b">شِ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_shu' , 38)"><span class="b">شُ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_sda' , 39)"><span class="a">صَ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_sdi' , 40)"><span class="a">صِ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_sdu' , 41)"><span class="a">صُ </span></td>
+                        </tr>
+                        <tr>
+                            <td class="pron_items" onclick="listen_audio('les2_dha' , 42)"><span class="b">ضَ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_dhe' , 43)"><span class="b">ضِ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_dhu' , 44)"><span class="b">ضُ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_tda' , 45)"><span class="a">طَ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_tde' , 46)"><span class="a">طِ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_tdu' , 47)"><span class="a">طُ </span></td>
+                        </tr>
+                        <tr>
+                            <td class="pron_items" onclick="listen_audio('les2_zha' , 48)"><span class="b">ظَ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_zhe' , 49)"><span class="b">ظِ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_zho' , 50)"><span class="b">ظُ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_aaa' , 51)"><span class="a">عَ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_aee' , 52)"><span class="a">عِ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_aau' , 53)"><span class="a">عُ </spa </td>
+                        </tr>
+                        <tr>
+                            <td class="pron_items" onclick="listen_audio('les2_gha' , 54)"><span class="b">غَ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_ghe' , 55)"><span class="b">غِ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_ghu' , 56)"><span class="b">غُ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_fa' , 57)"><span class="a">فَ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_fe' , 58)"><span class="a">فِ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_fu' , 59)"><span class="a">فُ </span></td>
+                        </tr>
+                        <tr>
+                            <td class="pron_items" onclick="listen_audio('les2_qa' , 60)"><span class="b">قَ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_qe' , 61)"><span class="b">قِ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_qu' , 62)"><span class="b">قُ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_ka' , 63)"><span class="a">كَ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_ke' , 64)"><span class="a">كِ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_ku' , 65)"><span class="a">كُ </span></td>
+                        </tr>
+                        <tr>
+                            <td class="pron_items" onclick="listen_audio('les2_la' , 66)"><span class="b">لَ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_le' , 67)"><span class="b">لِ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_lu' , 68)"><span class="b">لُ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_ma' , 69)"><span class="a">مَ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_me' , 70)"><span class="a">مِ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_mu' , 71)"><span class="a">مُ </span></td>
+                        </tr>
+                        <tr>
+                            <td class="pron_items" onclick="listen_audio('les2_na' , 72)"><span class="b">نَ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_ne' , 73)"><span class="b">نِ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_nu' , 74)"><span class="b">نُ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_hha' , 75)"><span class="a">هـَ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_hhe' , 76)"><span class="a">هـِ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_hhu' , 77)"><span class="a">هـُ </span></td>
+                        </tr>
+                        <tr>
+                            <td class="pron_items" onclick="listen_audio('les2_wa' , 78)"><span class="b">وَ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_we' , 79)"><span class="b">وِ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_wu' , 80)"><span class="b">وُ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_ya' , 81)"><span class="a">ىَ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_ye' , 82)"><span class="a">ىِ </span></td>
+                            <td class="pron_items" onclick="listen_audio('les2_yu' , 83)"><span class="a">ىُ </span></td>
+                        </tr>
+                        <tr>
+                            <td class="pron_items" onclick="listen_audio('aa' , 84)" colspan="2"><span class="b">ءَ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 85)" colspan="2"><span class="b">ءِ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 86)" colspan="2"><span class="b">ءُ </span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="lesson3">
+                <h1 style="text-align: center;">Pronunciation (tanween)</h1>
+                <p style="text-align: center;font-size : 20px">To learn how to pronounce each letter click each letter</p>
+                <table class="table table-bordered" style="border-radius : 20px" dir="rtl">
+                    <tbody>
+                        <tr>
+                            <td class="pron_items" onclick="listen_audio('aa' , 87)"><span class="a">أً </span></td>
+                            <td class="pron_items" onclick="listen_audio('ae' , 88)"><span class="a">ٍأ </span></td>
+                            <td class="pron_items" onclick="listen_audio('au' , 89)"><span class="a">أٌ </span</td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 90)"><span class="b">بً </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 91)"><span class="b">بٍ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 92)"><span class="b">بٌ </span></td>
+                        </tr>
+                        <tr>
+                            <td class="pron_items" onclick="listen_audio('aa' , 93)"><span class="b">تً </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 94)"><span class="b">تٍ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 95)"><span class="b">تٌ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 96)"><span class="a">ثً </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 97)"><span class="a">ثٍ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 98)"><span class="a">ثٌ </span></td>
+                        </tr>
+                        <tr>
+                            <td class="pron_items" onclick="listen_audio('aa' , 99)"><span class="b">جً </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 100)"><span class="b">جٍ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 101)"><span class="b">جٌ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 102)"><span class="a">حً </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 103)"><span class="a">حٍ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 104)"><span class="a">حٌ </span></td>
+                        </tr>
+                        <tr>
+                            <td class="pron_items" onclick="listen_audio('aa' , 105)"><span class="b">خً </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 106)"><span class="b">ٍخ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 107)"><span class="b">ٌخ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 108)"><span class="a">دً </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 109)"><span class="a">دٍ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 110)"><span class="a">دٌ </span></td>
+                        </tr>
+                        <tr>
+                            <td class="pron_items" onclick="listen_audio('aa' , 111)"><span class="b">ذً </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 112)"><span class="b">ذٍ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 113)"><span class="b">ذٌ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 114)"><span class="a">رً </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 115)"><span class="a">رٍ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 116)"><span class="a">رٌ </span></td>
+                        </tr>
+                        <tr>
+                            <td class="pron_items" onclick="listen_audio('aa' , 117)"><span class="b">زً </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 118)"><span class="b">زٍ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 119)"><span class="b">زٌ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 120)"><span class="a">سً </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 121)"><span class="a">سٍ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 122)"><span class="a">سٌ </span></td>
+                        </tr>
+                        <tr>
+                            <td class="pron_items" onclick="listen_audio('aa' , 123)"><span class="b">شً </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 124)"><span class="b">شٍ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 125)"><span class="b">شٌ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 126)"><span class="a">صً </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 127)"><span class="a">ٍص </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 128)"><span class="a">صٌ </span></td>
+                        </tr>
+                        <tr>
+                            <td class="pron_items" onclick="listen_audio('aa' , 129)"><span class="b">ضً </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 130)"><span class="b">ضٍ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 131)"><span class="b">ضٌ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 132)"><span class="a">طً </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 133)"><span class="a">طٍ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 134)"><span class="a">طٌ </span></td>
+                        </tr>
+                        <tr>
+                            <td class="pron_items" onclick="listen_audio('aa' , 135)"><span class="b">ظً </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 136)"><span class="b">ظٍ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 137)"><span class="b">ظٌ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 138)"><span class="a">عً </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 139)"><span class="a">عٍ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 140)"><span class="a">عٌ </span</td>
+                        </tr>
+                        <tr>
+                            <td class="pron_items" onclick="listen_audio('aa' , 141)"><span class="b">غً </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 142)"><span class="b">غٍ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 143)"><span class="b">غٌ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 144)"><span class="a">فً </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 145)"><span class="a">فٍ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 146)"><span class="a">فٌ </span></td>
+                        </tr>
+                        <tr>
+                            <td class="pron_items" onclick="listen_audio('aa' , 147)"><span class="b">قً </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 148)"><span class="b">قٍ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 149)"><span class="b">قٌ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 150)"><span class="a">كً </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 151)"><span class="a">كٍ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 152)"><span class="a">كٌ </span></td>
+                        </tr>
+                        <tr>
+                            <td class="pron_items" onclick="listen_audio('aa' , 153)"><span class="b">لً </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 154)"><span class="b">لٍ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 155)"><span class="b">لٌ </span></td>
+                            <td class="pron_items" onclick="listen_audio('man' , 156)"><span class="a">مً </span></td>
+                            <td class="pron_items" onclick="listen_audio('min' , 157)"><span class="a">مٍ </span></td>
+                            <td class="pron_items" onclick="listen_audio('mon' , 158)"><span class="a">مٌ </span></td>
+                        </tr>
+                        <tr>
+                            <td class="pron_items" onclick="listen_audio('aa' , 159)"><span class="b">نً </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 160)"><span class="b">نٍ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 161)"><span class="b">نٌ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 162)"><span class="a">هـً </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 163)"><span class="a">هـٍ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 164)"><span class="a">هـٌ </span></td>
+                        </tr>
+                        <tr>
+                            <td class="pron_items" onclick="listen_audio('aa' , 165)"><span class="b">وً </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 166)"><span class="b">وٍ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 167)"><span class="b">وٌ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 168)"><span class="a">ىً </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 169)"><span class="a">ىٍ </span></td>
+                            <td class="pron_items" onclick="listen_audio('aa' , 170)"><span class="a">ىٌ </span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="lesson4">
+                lesson4
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    const a = document.getElementsByClassName("a");
+    const lesson1_items = document.getElementsByClassName("lesson1_items");
+    const pron_items = document.getElementsByClassName("pron_items");
+    const lesson1 = document.getElementById("lesson1");
+    const lesson2 = document.getElementById("lesson2");
+    const lesson3 = document.getElementById("lesson3");
+    const lesson4 = document.getElementById("lesson4");
+    const audio = document.getElementById("audio");
+    const tds  = document.getElementsByTagName("td");
+    const alph = document.getElementsByClassName("alph");
+    const compstyles = window.getComputedStyle(lesson1);
+    var flag = true;
+    
+    window.onload = () => {
+
+        for(let i = 0 ; i < tds.length;i++){
+
+            tds[i].setAttribute("data-toggle" , "toltip");
+            tds[i].setAttribute("data-placement" , "top");
+            tds[i].setAttribute("title" , "press to listen");
+
+        }        
+
+    }
+
+    function listen_audio(alph_name , id){
+      
+                if(compstyles.getPropertyValue('display') == "block"){
+
+                    for(let i = 0; i < lesson1_items.length;i++){
+
+                        if(i == id){
+
+                            lesson1_items[i].style.backgroundColor = "black";
+                            alph[i].style.color = "white";
+                            
+                        }
+                        else{
+
+                            lesson1_items[i].style.backgroundColor = "yellow";
+                            alph[i].style.color = "black";
+                        }
+
+                    }
+
+                }
+                else{
+
+                    for(let i = 0; i <pron_items.length;i++){
+
+                        if(i == id){
+
+                            pron_items[id].style.backgroundColor = "black";
+                            
+                        }
+                        else{
+
+                            pron_items[i].style.backgroundColor = "yellow";
+                        }
+
+                    }
+
+                }            
+
+        if(audio.ended || flag == true){
+
+            audio.setAttribute("src" ,"{{'/themes/quran/assets/audios/" + alph_name + ".mp3'}}");
+            audio.load();
+            audio.play();
+            flag = false;
+        
+
+        }
+
+    }
+
+    function reset(){
+
+        if(compstyles.getPropertyValue('display') == "block"){
+
+            for(let i = 0 ;i < lesson1_items.length ; i++){
+
+                lesson1_items[i].style.backgroundColor = "yellow";
+                alph[i].style.color = "black";
+
+            }
+
+        }
+        else{
+
+            for(let i = 0 ;i < pron_items.length ; i++){
+
+                pron_items[i].style.backgroundColor = "yellow";
+
+            }
+
+        }
+
+    }
+</script>

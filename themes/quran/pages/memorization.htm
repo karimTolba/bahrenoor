@@ -1,0 +1,2178 @@
+title="Memorize"
+url="/memorize"
+layout="en_layout"
+description="memorization page"
+==
+
+<style>
+
+    body{
+
+        height : 800px;
+
+    }
+
+    #control_btns_mobile_media{
+
+      display: none;
+
+    }
+
+    nav{
+
+      position: static;
+
+    }
+
+    #h{
+
+        margin : 50px auto 50px auto;
+        padding-left : 60px;
+
+    }
+    #box_aya{
+
+        border : 1px solid;
+        height : 500px;
+        margin : 20px auto;
+        width : 90%;
+        padding : 20px;
+        position: relative;
+        background-image: url('https://api.mp3quran.net/ayah_image/001001.png');
+        background-position:right top;
+        background-size: 1000px 150px;
+        background-repeat: no-repeat;
+        background-origin: content-box;
+
+    }
+    #box_control{
+
+      margin : 20px auto;
+      width : 90%;
+      height : 50px;
+
+    }
+    #information{
+
+        float: left;
+        font-size: 20px;
+
+    }
+    #control_btns{
+
+        display: block;
+        float : right;
+        font-size: 20px;
+
+    }
+    button.control_btn , #speed{
+
+        margin-left: 10px;
+        cursor: pointer;
+
+    }
+    button.control_btn{
+
+        background-color: transparent;
+        border :none;
+
+    }
+    select{
+
+        border-radius: 10px;
+        padding : 5px 10px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+    
+    #en_trans{
+
+        position: absolute;
+        left : 30px;
+        right : 30px;
+        bottom : 30px;
+        font-size : 25px;
+        font-weight: bold;
+
+    }
+    #reciters_names , #surahs_names{
+
+        margin-right : 20px;
+
+    }
+    .stop{
+
+      color : red;
+      display: none;
+
+    }
+    .record_btn{
+
+      font-size: 20px;
+      color : red;
+
+    }
+    #record_progress , #recorded_progress , #aya_progress{
+
+      border : 1px solid;
+      border-radius : 5px;
+      font-weight : bold;
+      margin-right : 30px;
+      padding : 5px 5px 5px 10px;
+
+    }
+    #recorded_progress , #record_progress{
+
+      display : none;
+
+    }
+    #footer{
+
+      margin-top : 100px;
+
+    }
+    .display{
+
+      display: none;
+
+    }
+    #cont_download a{
+
+      text-decoration: none;
+      color : red;
+      border-bottom: 3px solid;
+    }
+
+    @media(max-width : 1000px){
+
+      #box_aya{
+
+        margin-top: 300px;
+        
+      }
+
+      select{
+
+        display : block;
+        margin-bottom: 20px;
+
+      }
+
+      #mobile_media , #mobile_media_2{
+
+        display: block;
+        margin-bottom: 20px;
+
+      }
+      #control_btns , #information{
+
+        float: none;
+
+      }
+
+      #speed , #back , #stop_record{
+
+        margin-left: 0px;
+
+      }
+      #speed{
+
+        margin-top : 20px;
+
+      }
+      #en_trans{
+
+        font-size: 13px;
+
+      }
+      
+    }
+  
+</style>
+
+<audio src="" id="aya_audio" onended="change_shape()" preload="metadata" ontimeupdate="progress()" type="audio/mpeg"></audio>
+
+<h1 id="h">Memorization</h1>
+<section>
+  <div id="box_control">
+      <div id="information">
+
+        <select id="reciters_names" onchange="reciter_name_change()">
+            <option value="mahmood_alhusary">Hosary</option>
+            <option value="mishary_alafasy">Mashary</option>
+            <option value="maher_almuaiqly">Maher ma3aqly</option>
+            <option value="abdulbasit_abdulsamad_mujawwad">Abdulbaset</option>
+            <option value="mohammad_alminshawi">Minshawy</option>
+            <option value="ali_alhuthaify">Huzayfa</option>
+            <option value="ali_jaber">Ali Jabir</option>
+        </select>
+        <select id="surahs_names" onchange="change_surah()">
+            
+        </select>
+        <select id="aya_number" onchange="change_aya()">
+
+        </select>
+      </div>
+      <div id="control_btns">
+          <span id="mobile_media">
+            <span id="record_progress">
+              <span id="minutes">00</span> : <span id="seconds">00</span>
+            </span>
+            <span id="recorded_progress">
+              <span>
+                <span id="display_current_recorded">00 : 00</span> / <span id="recorded_duration_minutes">00</span> : <span id="recorded_duration_seconds">00</span> 
+              </span>
+            </span>
+            <span id="aya_progress">
+              <span id="display_aya_current">00 : 00</span> / 
+              <span id="aya_duration_minutes">00</span> : <span id="aya_duration_seconds">00</span>
+            </span>
+          </span>
+          <span id="mobile_media_2">
+            <button class="control_btn" id="back" data-toggle="toltip" data-placement="top" title="Back"><i class="fas fa-backward"></i></button>
+            <button class="control_btn" id="switch_btn" onclick="f_switch_btn()" data-toggle="toltip" data-placement="top" title="Stop"><i id="cancel_record" class="fas fa-stop"></i></button>
+            <button class="control_btn display" id="cont_download">
+              <a href="" id="download"  data-toggle="toltip" data-placement="top">
+                <i class="fas fa-arrow-down"></i>
+              </a>
+            </button>
+            <button class="control_btn" id="choose_btn_state" onclick="choose_state()"  data-toggle="toltip" data-placement="top" title="Play"><i class="fas fa-play" id="icon"></i></button>
+            <button class="control_btn record_btn" id="record" data-toggle="toltip" data-placement="top" title="Record"><i class="fas fa-record-vinyl"></i></button>
+            <button class="control_btn stop" id="stop_record" data-toggle="toltip" data-placement="top" title="Stop Recording"><i class="fas fa-stop"></i></button>
+            <button class="control_btn" id="next" data-toggle="toltip" data-placement="top" title="Next"><i class="fas fa-forward"></i></button>
+            <select id="speed" onchange="set_audio_speed()">
+                <option value="1">1x</option>
+                <option value="0.75">3/4x</option>
+                <option value="0.5">1/2x</option>
+            </select>
+        </span>
+      </div>
+  </div>
+  <div id="box_aya">
+
+      <span id="en_trans">
+          
+      </span>
+
+  </div>
+</section>
+
+<script>
+
+    const aya_audio = document.getElementById("aya_audio");
+    const icon = document.getElementById("icon");
+    const speed = document.getElementById("speed");
+    const reciters_names = document.getElementById("reciters_names");
+    const back = document.getElementById("back");
+    const next = document.getElementById("next");
+    const box_aya = document.getElementById("box_aya");
+    const en_trans = document.getElementById("en_trans");
+    const aya_number_text = document.getElementById("aya_number");
+    const surahs_names = document.getElementById("surahs_names");
+    const record = document.getElementById("record");    
+    const stop_record = document.getElementById("stop_record");
+    const seconds = document.getElementById("seconds");
+    const minutes  = document.getElementById("minutes");
+    const record_progress = document.getElementById("record_progress");
+    const recorded_progress = document.getElementById("recorded_progress");
+    const current = document.getElementById("current");
+    const switch_btn = document.getElementById("switch_btn");
+    const cancel_record = document.getElementById("cancel_record");
+    const download = document.getElementById("download");
+    const cont_download = document.getElementById("cont_download");
+    const display_aya_current = document.getElementById("display_aya_current");
+    const recorded_duration_minutes = document.getElementById("recorded_duration_minutes");
+    const recorded_duration_seconds = document.getElementById("recorded_duration_seconds");
+    const aya_duration_minutes = document.getElementById("aya_duration_minutes");
+    const aya_duration_seconds = document.getElementById("aya_duration_seconds");
+    const display_current_recorded = document.getElementById("display_current_recorded");
+    const choose_btn_state = document.getElementById("choose_btn_state");
+    const items = [];
+    var new_aya_number = "";
+    var download_name = "";
+    var surah_number = 0;
+    var aya_number = 0;
+    var audio_aya_number = "";
+    var audio_surah_number = "";
+    var reciter_name = "";
+    var speedRate = 0;
+    var return_time_out = 0;
+    var return_time_out_duration = 0 ;
+    let device = {};
+    let recorder = {};
+    var convection_text = "";
+    var aya_id = 0;
+    var aya_ids = [];
+    var last = 0;
+    var init_seconds = 0;
+    var init_minutes = 0;
+    var flag = false;
+    var flag_duration = false;
+    var flag_timer = 0;
+    var flag_switch = false;
+    var reciter_number = "";
+    let audio = {};
+    let duration_time = 0;
+    let aya_seconds = 0;
+    let aya_minutes = 0;
+    let convection_array = [];
+    let very_new_array = [];
+    let new_array = [];
+    let record_duration = 0;
+    var surahs = [
+            {
+              "name": "Al-Fatihah",
+              "tr" : "THE OPENER" ,
+              "id": 1 ,
+              "aya_number" : 7
+            },
+            {
+              "name": "Al-Baqarah",
+              "tr" : "THE COW" ,
+              "id": 2 ,
+              "aya_number" : 286
+            },
+            {
+              "name": "Al-Imran",
+              "tr" : "FAMILY OF IMRAN" ,
+              "id": 3 ,
+              "aya_number" : 200
+            },
+            {
+              "name": "An-Nisaa",
+              "tr" : "THE WOMEN" ,
+              "id": 4 ,
+              "aya_number" : 176
+            },
+            {
+              "name": "Al-Maeidah",
+              "tr" : "THE TABLE OF SPREAD" ,
+              "id": 5 ,
+              "aya_number" : 120
+
+            },
+            {
+              "name": "Al-Anaam",
+              "tr" : "THE CATTLE" ,
+              "id": 6 ,
+              "aya_number" : 165
+            },
+            {
+              "name": "Al-Aaraf",
+              "tr" : "THE HEIGHTS" ,
+              "id": 7 ,
+              "aya_number" : 206
+
+            },
+            {
+              "name": "Al-Anfal",
+              "tr" : "THE SPOILS OF WAR" ,
+              "id": 8 ,
+              "aya_number" : 75
+            },
+            {
+              "name": "At-Taubah",
+              "tr" : "THE REPETANCE" ,
+              "id": 9 ,
+              "aya_number" : 129
+            },
+            {
+              "name": "Yunus",
+              "tr" : "JONAH" ,
+              "id": 10 ,
+              "aya_number" : 109
+            },
+            {
+              "name": "Hud",
+              "tr" : "HUD" ,
+              "id": 11 ,
+              "aya_number" : 123
+            },
+            {
+              "name": "Yusuf",
+              "tr" : "JOSEPH" ,
+              "id": 12 ,
+              "aya_number" : 111
+            },
+            {
+              "name": "Ar-Raad",
+              "tr" : "THE THUNDER" ,
+              "id": 13 ,
+              "aya_number" : 43
+            },
+            {
+              "name": "Ibrahim",
+              "tr" : "ABRAHIM" ,
+              "id": 14 ,
+              "aya_number" : 52
+            },
+            {
+              "name": "Al-Hijr",
+              "tr" : "THE ROCKY TRACT" ,
+              "id": 15 ,
+              "aya_number" : 99
+            },
+            {
+              "name": "An-Nahl",
+              "tr" : "THE BEE" ,
+              "id": 16 ,
+              "aya_number" :128
+            },
+            {
+              "name": "Al-Israa",
+              "tr" : "THE NIGHT JOURNEY" ,
+              "id": 17 ,
+              "aya_number" :111
+            },
+            {
+              "name": "Al-Kahf",
+              "tr" : "THE CAVE" ,
+              "id": 18 ,
+              "aya_number" :110
+            },
+            {
+              "name": "Maryam",
+              "tr" : "MARY" ,
+              "id": 19 ,
+              "aya_number" : 98
+            },
+            {
+              "name": "Ta-Ha",
+              "tr" : "TA-HA" ,
+              "id": 20 , 
+              "aya_number" : 135
+            },
+            {
+              "name": "Al-Anbiyaa",
+              "tr" : "THE PROPHETS" ,
+              "id": 21 ,
+              "aya_number" : 112
+            },
+            {
+              "name": "Al-Hajj",
+              "tr" : "THE PILGRIMAGE" ,
+              "id": 22 ,
+              "aya_number" : 78
+            },
+            {
+              "name": "Al-Muminun",
+              "tr" : "THE BELEVERS" ,
+              "id": 23 ,
+              "aya_number" : 118
+            },
+            {
+              "name": "An-Nur",
+              "tr" : "THE LIGHT" ,
+              "id": 24 ,
+              "aya_number" : 64
+            },
+            {
+              "name": "Al-Furqan",
+              "tr" : "THE CRITERIAN" ,
+              "id": 25 ,
+              "aya_number" : 77
+            },
+            {
+              "name": "Ash-Shuara",
+              "tr" : "THE POETS" ,
+              "id": 26 ,
+              "aya_number" : 227
+            },
+            {
+              "name": "An-Naml",
+              "tr" : "THE ANT" ,
+              "id": 27 ,
+              "aya_number" : 93
+            },
+            {
+              "name": "Al-Qasas",
+              "tr" : "THE STORIES" ,
+              "id": 28 ,
+              "aya_number" : 88
+            },
+            {
+              "name": "Al-Ankabut",
+              "tr" : "THE SPIDER" ,
+              "id": 29 ,
+              "aya_number" : 69
+            },
+            {
+              "name": "Ar-Rum",
+              "tr" : "THE ROMANS" ,
+              "id": 30 ,
+              "aya_number" : 60
+            },
+            {
+              "name": "Luqman",
+              "tr" : "LUQMAN" ,
+              "id": 31 ,
+              "aya_number" : 34
+            },
+            {
+              "name": "As-Sajdah",
+              "tr" : "THE PROSTRATION" ,
+              "id": 32 ,
+              "aya_number" : 30
+            },
+            {
+              "name": "Al-Ahzab",
+              "tr" : "THE COMBINED FORCES" ,
+              "id": 33 ,
+              "aya_number" : 73
+            },
+            {
+              "name": "Sabaa",
+              "tr" : "SHEBA" ,
+              "id": 34 ,
+              "aya_number" : 54
+            },
+            {
+              "name": "Fatir",
+              "tr" : "ORICINATOR" ,
+              "id": 35 ,
+              "aya_number" : 45
+            },
+            {
+              "name": "Ya-Sin",
+              "tr" : "YA SIN" ,
+              "id": 36 ,
+              "aya_number" : 83
+            },
+            {
+              "name": "As-saffat",
+              "tr" : "THOSE WHO SET RANKS" ,
+              "id": 37 ,
+              "aya_number" : 182
+            },
+            {
+              "name": "Sad",
+              "tr" : "THE LETTER \" SAAD \"" ,
+              "id": 38 ,
+              "aya_number" : 88
+            },
+            {
+              "name": "Az-Zumar",
+              "tr" : "THE TROOPS" ,
+              "id": 39 ,
+              "aya_number" : 75
+            },
+            {
+              "name": "Ghafir",
+              "tr" : "THE FORCIVER" ,
+              "id": 40 ,
+              "aya_number" : 85
+            },
+            {
+              "name": "Fussilat",
+              "tr" : "EXPLAINED IN DETAIL" ,
+              "id": 41 ,
+              "aya_number" : 54
+            },
+            {
+              "name": "Ash-Shuraa",
+              "tr" : "THE CONSULTATION" ,
+              "id": 42 ,
+              "aya_number" : 53
+            },
+            {
+              "name": "Az-Zukhruf",
+              "tr" : "THE ORNAMENTS OF COLD" ,
+              "id": 43 ,
+              "aya_number" : 89
+            },
+            {
+              "name": "Ad-Dukhan",
+              "tr" : "THE SMOKE" ,
+              "id": 44 ,
+              "aya_number" : 59
+            },
+            {
+              "name": "Al-Jathiyah",
+              "tr" : "THE CROUCHING" ,
+              "id": 45 ,
+              "aya_number" : 37
+            },
+            {
+              "name": "Al-Ahqaf",
+              "tr" : "THE WIND-CURVED SANDHILLS" ,
+              "id": 46 ,
+              "aya_number" : 35
+            },
+            {
+              "name": "Muhammad",
+              "tr" : "MUHAMMED" ,
+              "id": 47 ,
+              "aya_number" : 38
+            },
+            {
+              "name": "Al-Fath",
+              "tr" : "THE VICTORY" ,
+              "id": 48 ,
+              "aya_number" : 29
+            },
+            {
+              "name": "Al-hujurat",
+              "tr" : "THE ROOMS" ,
+              "id": 49 ,
+              "aya_number" : 18
+            },
+            {
+              "name": "Qaf",
+              "tr" : "THE LETTER \" QAF \" " ,
+              "id": 50 ,
+              "aya_number" : 45
+            }, 
+            {
+              "name": "Adh-Dhariyat",
+              "tr" : "THE WINNOWING WINDS" ,
+              "id": 51 ,
+              "aya_number" : 60 
+            },
+            {
+              "name": "At-tur",
+              "tr" : "THE MOUNT" ,
+              "id": 52 ,
+              "aya_number" : 49
+            },
+            {
+              "name": "An-Najm",
+              "tr" : "THE STAR" ,
+              "id": 53 ,
+              "aya_number" : 62
+            },
+            {
+              "name": "Al-Qamar",
+              "tr" : "THE MOON" ,
+              "id": 54 ,
+              "aya_number" : 55
+            },
+            {
+              "name": "Ar-Rahman",
+              "tr" : "THE BENEFICENT" ,
+              "id": 55 ,
+              "aya_number" : 78
+            },
+            {
+              "name": "Al-Waqiah",
+              "tr" : "THE INEVITABLE" ,
+              "id": 56 ,
+              "aya_number" : 96
+            },
+            {
+              "name": "Al-hadid",
+              "tr" : "THE IRON" ,
+              "id": 57 ,
+              "aya_number" : 29
+            },
+            {
+              "name": "Al-Mujadilah",
+              "tr" : "THE PLEADING WOMAN" ,
+              "id": 58 ,
+              "aya_number" : 22
+            },
+            {
+              "name": "Al-hashr",
+              "tr" : "THE EXILE" ,
+              "id": 59 ,
+              "aya_number" : 24
+            },
+            {
+              "name": "Al-Mumtahanah",
+              "tr" : "SHE THAT IS TO BE EXAMINED" ,
+              "id": 60 ,
+              "aya_number" : 13
+            },
+            {
+              "name": "As-saff",
+              "tr" : "THE RANKS" ,
+              "id": 61 ,
+              "aya_number" : 14
+            },
+            {
+              "name": "Al-Jumuah",
+              "tr" : "THE CONGREGATION FRIDAY" ,
+              "id": 62 ,
+              "aya_number" : 11
+            },
+            {
+              "name": "Al-Munafiqun",
+              "tr" : "THE HYPOCRITES" ,
+              "id": 63 ,
+              "aya_number" : 11
+            },
+            {
+              "name": "At-Taghabun",
+              "tr" : "THE MUTUAL DISILLUSION" ,
+              "id": 64 ,
+              "aya_number" : 18
+            },
+            {
+              "name": "At-talaq",
+              "tr" : "THE DIVORCE" ,
+              "id": 65 ,
+              "aya_number" : 12
+            },
+            {
+              "name": "At-Tahrim",
+              "tr" : "THE PROHIBTION" ,
+              "id": 66 ,
+              "aya_number" : 12
+            },
+            {
+              "name": "Al-Mulk",
+              "tr" : "THE SOVEREIGNTY" ,
+              "id": 67 ,
+              "aya_number" :30
+            },
+            {
+              "name": "Al-Qalam",
+              "tr" : "THE PEN" ,
+              "id": 68 ,
+              "aya_number" : 52
+            },
+            {
+              "name": "Al-haqqah",
+              "tr" : "THE REALITY" ,
+              "id": 69 ,
+              "aya_number" :52
+            },
+            {
+              "name": "Al-Maarij",
+              "tr" : "THE ASCENDING STARWAYS" ,
+              "id": 70 ,
+              "aya_number" : 44
+            },
+            {
+              "name": "Nuh",
+              "tr" : "NOAH" ,
+              "id": 71 ,
+              "aya_number":28
+            },
+            {
+              "name": "Al-Jinn",
+              "tr" : "THE JINN" ,
+              "id": 72 ,
+              "aya_number" : 28
+            },
+            {
+              "name": "Al-Muzzammil",
+              "tr" : "THE ENSHROUDED ONE" ,
+              "id": 73 ,
+              "aya_number":20
+            },
+            {
+              "name": "Al-Muddaththir",
+              "tr" : "THE CLOAKED ONE" ,
+              "id": 74 ,
+              "aya_number" : 56
+            },
+            {
+              "name": "Al-Qiyamah",
+              "tr" : "THE RESURRECTION" ,
+              "id": 75 ,
+              "aya_number" : 40
+            },
+            {
+              "name": "Al-Insan",
+              "tr" : "THE MAN" ,
+              "id": 76 ,
+              "aya_number" : 31
+            },
+            {
+              "name": "Al-Mursalat",
+              "tr" : "THE EMISSARIES" ,
+              "id": 77 ,
+              "aya_number" : 50 
+            },
+            {
+              "name": "An-Nabaa",
+              "tr" : "THE TIDINGS" ,
+              "id": 78 ,
+              "aya_number" : 40
+            },
+            {
+              "name": "An-Naziaat",
+              "tr" : "THOSE WHO DRAC FORTH" ,
+              "id": 79 ,
+              "aya_number" : 46
+            },
+            {
+              "name": "Abasa",
+              "tr" : "HE FROWNED" ,
+              "id": 80 ,
+              "aya_number" : 42
+            },
+            {
+              "name": "At-Takwir",
+              "tr" : "THE OVERTHROWING" ,
+              "id": 81 ,
+              "aya_number" : 29
+            },
+            {
+              "name": "Al-Infitar",
+              "tr" : "THE CLEAVING" ,
+              "id": 82 ,
+              "aya_number" : 19
+            },
+            {
+              "name": "Al-Mutaffifin",
+              "tr" : "THE DEFRAUDING" ,
+              "id": 83 ,
+              "aya_number" : 36
+            },
+            {
+              "name": "Al-Inshiqaq",
+              "tr" : "THE SUNDERING" ,
+              "id": 84 ,
+              "aya_number" : 25
+            },
+            {
+              "name": "Al-Buruj",
+              "tr" : "THE MANSIONS OF STARS" ,
+              "id": 85 ,
+              "aya_number" : 22
+            },
+            {
+              "name": "At-tariq",
+              "tr" : "THE NIGHT COMMERS" ,
+              "id": 86 ,
+              "aya_number" : 17
+            },
+            {
+              "name": "Al-Aala",
+              "tr" : "THE MOST HIGH" ,
+              "id": 87 ,
+              "aya_number" : 19
+            },
+            {
+              "name": "Al-Ghashiyah",
+              "tr" : "THE OVERWHELMING" ,
+              "id": 88 ,
+              "aya_number" : 26
+            },
+            {
+              "name": "Al-Fajr",
+              "tr" : "THE DAWN" ,
+              "id": 89 ,
+              "aya_number" : 30
+            },
+            {
+              "name": "Al-Balad",
+              "tr" : "THE CITY" ,
+              "id": 90 ,
+              "aya_number" : 20
+            },
+            {
+              "name": "Ash-Shams",
+              "tr" : "THE SUN" ,
+              "id": 91 ,
+              "aya_number" : 15
+            },
+            {
+              "name": "Al-Layl",
+              "tr" : "THE NIGHT" ,
+              "id": 92 ,
+              "aya_number" : 21
+            },
+            {
+              "name": "Ad-duha",
+              "tr" : "THE MORNING HOURS" ,
+              "id": 93 ,
+              "aya_number" : 11
+            },
+            {
+              "name": "Ash-Sharh",
+              "tr" : "THE RELIEF" ,
+              "id": 94 ,
+              "aya_number" : 8
+            },
+            {
+              "name": "At-Tin",
+              "tr" : "THE FIC" ,
+              "id": 95 ,
+              "aya_number" : 8
+            },
+            {
+              "name": "Al-aAlaq",
+              "tr" : "THE CLOT" ,
+              "id": 96 ,
+              "aya_number" : 19
+            },
+            {
+              "name": "Al-Qadr",
+              "tr" : "THE POWER" ,
+              "id": 97 ,
+              "aya_number" :5
+            },
+            {
+              "name": "Al-Bayyinah",
+              "tr" : "THE CLEAR PROOF" ,
+              "id": 98 ,
+              "aya_number" : 8
+            },
+            {
+              "name": "Az-Zalzalah",
+              "tr" : "THE EARTHQUAKE" ,
+              "id": 99 ,
+              "aya_number" : 8
+
+            },
+            {
+              "name": "Al-Adiyat",
+              "tr" : "THE COURSER" ,
+              "id": 100 ,
+              "aya_number" : 11
+            },
+            {
+              "name": "Al-Qariaah",
+              "tr" : "THE CALAMITY" ,
+              "id": 101 ,
+              "aya_number" : 11
+            },
+            {
+              "name": "At-Takathur",
+              "tr" : "THE RIVALRY IN WORLD INCREASE" ,
+              "id": 102 ,
+              "aya_number" : 8
+            },
+            {
+              "name": "Al-Asr",
+              "tr" : "THE DECLINING DAY" ,
+              "id": 103 ,
+              "aya_number" : 3
+            },
+            {
+              "name": "Al-Humazah",
+              "tr" : "THE TRADUCER" ,
+              "id": 104 ,
+              "aya_number" : 9
+            },
+            {
+              "name": "Al-Fil",
+              "tr" : "THE ELEPHANT" ,
+              "id": 105 ,
+              "aya_number" : 5
+            },
+            {
+              "name": "Quraysh",
+              "tr" : "QURAYSH" ,
+              "id": 106 ,
+              "aya_number" : 4
+            },
+            {
+              "name": "Al-Maun",
+              "tr" : "THE SMALL KINDESSES" ,
+              "id": 107 ,
+              "aya_number" : 7
+            },
+            {
+              "name": "Al-Kawthar",
+              "tr" : "THE ABUNDANCE" ,
+              "id": 108 ,
+              "aya_number" : 3
+            },
+            {
+              "name": "Al-Kafirun",
+              "tr" : "THE DISBELIVERS" ,
+              "id": 109 ,
+              "aya_number" : 6
+            },
+            {
+              "name": "An-Nasr",
+              "tr" : "THE DIVINE SUPPORT" ,
+              "id": 110 ,
+              "aya_number" : 3
+            },
+            {
+              "name": "Al-Masad",
+              "tr" : "THE PALM FIBER" ,
+              "id": 111 ,
+              "aya_number" : 5
+            },
+            {
+              "name": "Al-Ikhlas",
+              "tr" : "THE SINCERITY" ,
+              "id": 112 ,
+              "aya_number" : 4
+            },
+            {
+              "name": "Al-Falaq",
+              "tr" : "THE DAYBREAK" ,
+              "id": 113 ,
+              "aya_number" : 5
+            },
+            {
+              "name": "An-Nas",
+              "tr" : "THE MANKIND" ,
+              "id": 114 ,
+              "aya_number" : 6
+            }
+          ]
+    
+    window.onload = () => {
+
+        switch_btn.removeAttribute("onclick");
+
+        for(let i = 0 ; i < surahs.length; i++){
+
+            let option = document.createElement("option");
+            option.value =  surahs[i].name  + "/" + surahs[i].id;
+            let text = document.createTextNode(surahs[i].name);
+            option.appendChild(text);
+            surahs_names.appendChild(option);
+
+        }
+
+        
+        for(let i = 1 ; i <= 7; i++){
+
+            let option = document.createElement("option");
+            option.className = "number_class";
+            option.value = i;
+            let text = document.createTextNode(i);
+            option.appendChild(text);
+            aya_number_text.appendChild(option);
+
+        }
+
+    }
+
+    
+    for(let i = 0 ;i < surahs.length;i++){
+
+      if(i == 0){
+
+      for(let x = 1 ; x <= surahs[i].aya_number;x++){
+       
+        convection_array.push(`${surahs[i].name}:${x}`);
+
+      }
+    }
+      else{
+
+        for(let x = 0;x <= surahs[i].aya_number;x++){
+
+          if(x == 0){
+
+            if(surahs[i].name == "At-Taubah")
+              convection_array.push(0);
+            else
+              convection_array.push(`${surahs[i].name}:${x}`);
+
+          }
+          else  
+            convection_array.push(`${surahs[i].name}:${x}`);
+
+        }
+
+      }
+
+
+      }
+
+    console.log(convection_array);
+
+    
+    $.ajax({
+
+        method : "GET" ,
+        url : `https://api.mp3quran.net/api/aya?surah=${surahs[0].id}&aya=${convection_array[aya_number].split(":")[1]}&language=en` ,
+        dataType : "json" ,
+        success : (data) => {
+
+            let image_url = data.image_url.split(":")[0] + "s"  + ":" + data.image_url.split(":")[1];
+            box_aya.style.backgroundImage = `url('${image_url}')`;
+            if(window.innerWidth < 1000){
+
+              box_aya.style.backgroundSize = "100% 15%";
+              en_trans.style.fontSize = "13px";
+              
+            }
+            en_trans.textContent = data.ayah_text_lang;
+            audio_aya_number = data.image_url.split("//")[1].split("/")[2].split(".")[0].slice(3);
+            audio_surah_number = data.image_url.split("//")[1].split("/")[2].split(".")[0].slice(0 , 3);
+            download_name =  `${audio_surah_number}${audio_aya_number}`; 
+            if(audio_aya_number == "001" && audio_surah_number == "001")
+                back.setAttribute("disabled" , ""); 
+            aya_audio.setAttribute("src" , `https://verse.mp3quran.net/arabic/${reciters_names.value}/${reciters_names.value == 'ali_jaber' ? '64' : '128'}/${audio_surah_number}${audio_surah_number}.mp3`);
+            aya_audio.load();
+            reciter_name = reciters_names.value;
+            reciter_number = reciters_names.value == 'ali_jaber' ? '64' : '128';
+            
+        }
+
+    });
+
+    back.onclick = ()=>{
+
+        display_aya_current.innerHTML = "00 : 00";
+        choose_btn_state.setAttribute("title" , "play");
+
+        if(next.hasAttribute("disabled"))
+            next.removeAttribute("disabled");
+        if(icon.className == "fas fa-pause" || icon.className == "fas fa-redo")
+            icon.className = "fas fa-play";  
+            
+        aya_number--;
+        
+        if(typeof convection_array[aya_number] == "number"){
+
+          surah_number--;
+          aya_number--;
+          very_new_array = [];
+
+          $.ajax({
+
+            method : "GET" ,
+            async : false ,
+            url : `https://api.mp3quran.net/api/aya?surah=${surahs[surah_number].id}&aya=${convection_array[aya_number].split(":")[1]}&language=en` ,
+            dataType : "json" ,
+            success : (data) => {
+
+              let image_url = data.image_url.split(":")[0] + "s"  + ":" + data.image_url.split(":")[1];
+              box_aya.style.backgroundImage = `url('${image_url}')`;
+              if(window.innerWidth < 1000){
+
+                box_aya.style.backgroundSize = "100% 15%";
+                en_trans.style.fontSize = "13px";
+              }
+              en_trans.textContent = data.ayah_text_lang;
+              surahs_names.selectedIndex = surah_number;
+                
+                let options = document.getElementsByClassName("number_class");
+
+                for(let i = 0 ; i < surahs.length ;i++){
+
+                  if(surahs[i].name == surahs_names.value.split("/")[0]){
+
+                    
+                    for(let x = options.length - 1 ; x >=0  ; x--){
+
+                      options[x].parentNode.removeChild(options[x]);  
+
+                    }                      
+                    
+                    for(let x = 1 ; x <= surahs[i].aya_number ;x++){
+
+                      let option = document.createElement("option");
+                      option.className = "number_class";
+                      option.value = x;
+                      let text = document.createTextNode(x);
+                      option.appendChild(text);
+                      aya_number_text.appendChild(option);
+                      
+
+                  }
+
+
+                  }
+
+                }  
+              audio_aya_number = data.image_url.split("//")[1].split("/")[2].split(".")[0].slice(3);
+              if(Number(audio_aya_number) < 10)
+                  new_aya_number = audio_aya_number.slice(2);
+              else if(Number(audio_aya_number) >= 10 && Number(audio_aya_number) < 100)
+                new_aya_number = audio_aya_number.slice(1);
+              else
+                new_aya_number = audio_aya_number;  
+              audio_surah_number = data.image_url.split("//")[1].split("/")[2].split(".")[0].slice(0 , 3);
+              download_name =  `${audio_surah_number}${audio_aya_number}`;
+              new_array = Object.entries(aya_number_text.options);
+              for(let i = 0 ; i < new_array.length;i++){
+
+                very_new_array.push(new_array[i][1].value);
+
+              }
+
+              aya_number_text.selectedIndex = very_new_array.indexOf(new_aya_number);
+              if(audio_aya_number == "001" && audio_surah_number == "001")
+                  back.setAttribute("disabled" , ""); 
+              aya_audio.setAttribute("src" , `https://verse.mp3quran.net/arabic/${reciter_name}/${reciter_number}/${audio_surah_number}${audio_aya_number}.mp3`);
+              aya_audio.load();           
+
+                }    
+            });
+
+          }
+
+        else if(convection_array[aya_number].split(":")[1] == "0"){
+
+          aya_number_text.selectedIndex = 0;
+          box_aya.style.backgroundImage = "url('https://hjlogic.com/quran/001001.png')";
+          if(window.innerWidth < 1000){
+            box_aya.style.backgroundSize = "100% 15%";
+            en_trans.style.fontSize = "13px";
+          }
+          else
+            box_aya.style.backgroundSize = "1000px 200px";
+          en_trans.textContent = "In the name of Allah, the Entirely Merciful, the Especially Merciful";
+          aya_audio.setAttribute("src" , `https://verse.mp3quran.net/arabic/${reciters_names.value}/${reciters_names.value == 'ali_jaber' ? '64' : '128'}/001001.mp3`);
+          aya_audio.load();
+
+        }
+        
+        else{
+          
+          if(convection_array[aya_number + 1].split(":")[1] == "0"){
+
+            surah_number--;
+            surahs_names.selectedIndex = surah_number;
+            very_new_array = [];
+
+          }
+
+          console.log(convection_array[aya_number]);
+          
+          $.ajax({
+
+              method : "GET" ,
+              async : false ,
+              url : `https://api.mp3quran.net/api/aya?surah=${surahs[surah_number].id}&aya=${convection_array[aya_number].split(":")[1]}&language=en` ,
+              dataType : "json" ,
+              success : (data) => {
+
+                let image_url = data.image_url.split(":")[0] + "s"  + ":" + data.image_url.split(":")[1];
+                box_aya.style.backgroundImage = `url('${image_url}')`;
+                if(aya_number_text.value == "282"){
+
+                  if(window.innerWidth < 1000){
+
+                    box_aya.style.height = "900px";
+                    box_aya.style.backgroundSize = "100% 20%";
+                    en_trans.style.fontSize = "13px";
+                  }
+                  else{
+                    box_aya.style.height = "1200px";
+                    box_aya.style.backgroundSize = "1000px 500px";
+                  }    
+                }
+                else{
+
+                  box_aya.style.height = "500px";
+                  if(window.innerWidth < 1000)
+                    box_aya.style.backgroundSize = "100% 15%";
+                  else 
+                    box_aya.style.backgroundSize = "1000px 150px";
+
+                }
+                en_trans.textContent = data.ayah_text_lang;
+                  
+                let options = document.getElementsByClassName("number_class");
+
+                for(let i = 0 ; i < surahs.length ;i++){
+
+                  if(surahs[i].name == surahs_names.value.split("/")[0]){
+
+                    
+                    for(let x = options.length - 1 ; x >=0  ; x--){
+
+                      options[x].parentNode.removeChild(options[x]);  
+
+                    }
+                    
+                    if(surahs[i].name == "Al-Fatihah"){
+
+                      for(let x = 1 ; x <= surahs[i].aya_number ;x++){
+
+                        let option = document.createElement("option");
+                        option.className = "number_class";
+                        option.value = x;
+                        let text = document.createTextNode(x);
+                        option.appendChild(text);
+                        aya_number_text.appendChild(option);
+
+                        }
+                    }
+                    else{
+
+                      for(let x = 0 ; x <= surahs[i].aya_number ;x++){
+
+                        let option = document.createElement("option");
+                        option.className = "number_class";
+                        option.value = x;
+                        let text = document.createTextNode(x);
+                        option.appendChild(text);
+                        aya_number_text.appendChild(option);
+
+
+                        }
+
+
+                    }
+                    
+                  
+
+                  }
+
+                }  
+                audio_aya_number = data.image_url.split("//")[1].split("/")[2].split(".")[0].slice(3);
+                if(Number(audio_aya_number) < 10)
+                    new_aya_number = audio_aya_number.slice(2);
+                else if(Number(audio_aya_number) >= 10 && Number(audio_aya_number) < 100)
+                  new_aya_number = audio_aya_number.slice(1);
+                else
+                  new_aya_number = audio_aya_number;  
+                audio_surah_number = data.image_url.split("//")[1].split("/")[2].split(".")[0].slice(0 , 3);
+                download_name =  `${audio_surah_number}${audio_aya_number}`;
+                new_array = Object.entries(aya_number_text.options);
+                for(let i = 0 ; i < new_array.length;i++){
+
+                  very_new_array.push(new_array[i][1].value);
+
+                }
+
+                aya_number_text.selectedIndex = very_new_array.indexOf(new_aya_number);
+                if(audio_aya_number == "001" && audio_surah_number == "001")
+                    back.setAttribute("disabled" , ""); 
+                aya_audio.setAttribute("src" , `https://verse.mp3quran.net/arabic/${reciter_name}/${reciter_number}/${audio_surah_number}${audio_aya_number}.mp3`);
+                aya_audio.load();           
+
+                  }    
+            });
+        }
+      }
+
+    next.onclick = ()=>{
+
+        display_aya_current.innerHTML = "00 : 00";
+        choose_btn_state.setAttribute("title" , "play");
+
+        if(back.hasAttribute("disabled"))
+            back.removeAttribute("disabled");
+        if(icon.className == "fas fa-pause" || icon.className == "fas fa-redo")
+            icon.className = "fas fa-play";    
+
+        aya_number++;
+
+        if(typeof convection_array[aya_number] == "number"){
+
+          surah_number++;
+          aya_number++;
+          very_new_array = [];
+
+          $.ajax({
+
+            method : "GET" ,
+            async : false ,
+            url : `https://api.mp3quran.net/api/aya?surah=${surahs[surah_number].id}&aya=${convection_array[aya_number].split(":")[1]}&language=en` ,
+            dataType : "json" ,
+            success : (data) => {
+
+              let image_url = data.image_url.split(":")[0] + "s"  + ":" + data.image_url.split(":")[1];
+              box_aya.style.backgroundImage = `url('${image_url}')`;
+              if(window.innerWidth < 1000){
+                box_aya.style.backgroundSize = "100% 15%";
+                en_trans.style.fontSize = "13px";
+              }
+              en_trans.textContent = data.ayah_text_lang;
+              surahs_names.selectedIndex = surah_number;
+                
+                let options = document.getElementsByClassName("number_class");
+
+                for(let i = 0 ; i < surahs.length ;i++){
+
+                  if(surahs[i].name == surahs_names.value.split("/")[0]){
+
+                    
+                    for(let x = options.length - 1 ; x >=0  ; x--){
+
+                      options[x].parentNode.removeChild(options[x]);  
+
+                    }                      
+                    
+                    for(let x = 1 ; x <= surahs[i].aya_number ;x++){
+
+                      let option = document.createElement("option");
+                      option.className = "number_class";
+                      option.value = x;
+                      let text = document.createTextNode(x);
+                      option.appendChild(text);
+                      aya_number_text.appendChild(option);
+                      
+
+                  }
+
+
+                  }
+
+                }  
+              audio_aya_number = data.image_url.split("//")[1].split("/")[2].split(".")[0].slice(3);
+              if(Number(audio_aya_number) < 10)
+                  new_aya_number = audio_aya_number.slice(2);
+              else if(Number(audio_aya_number) >= 10 && Number(audio_aya_number) < 100)
+                new_aya_number = audio_aya_number.slice(1);
+              else
+                new_aya_number = audio_aya_number;  
+              audio_surah_number = data.image_url.split("//")[1].split("/")[2].split(".")[0].slice(0 , 3);
+              download_name =  `${audio_surah_number}${audio_aya_number}`;
+              new_array = Object.entries(aya_number_text.options);
+              for(let i = 0 ; i < new_array.length;i++){
+
+                very_new_array.push(new_array[i][1].value);
+
+              }
+
+              aya_number_text.selectedIndex = very_new_array.indexOf(new_aya_number);
+              if(audio_aya_number == "001" && audio_surah_number == "001")
+                  back.setAttribute("disabled" , ""); 
+              aya_audio.setAttribute("src" , `https://verse.mp3quran.net/arabic/${reciter_name}/${reciter_number}/${audio_surah_number}${audio_aya_number}.mp3`);
+              aya_audio.load();
+              aya_audio.play();
+              icon.className = "fas fa-pause";           
+
+                }    
+            });
+
+          }
+
+            else if(convection_array[aya_number].split(":")[1] == "0"){
+
+              surah_number++;
+              surahs_names.selectedIndex = surah_number;
+              let options = document.getElementsByClassName("number_class");
+
+              for(let i = 0 ; i < surahs.length ;i++){
+
+                if(surahs[i].name == surahs_names.value.split("/")[0]){
+
+                  
+                  for(let x = options.length - 1 ; x >=0  ; x--){
+
+                    options[x].parentNode.removeChild(options[x]);  
+
+                  }
+                  
+                  if(surahs[i].name == "Al-Fatihah"){
+
+                    for(let x = 1 ; x <= surahs[i].aya_number ;x++){
+
+                      let option = document.createElement("option");
+                      option.className = "number_class";
+                      option.value = x;
+                      let text = document.createTextNode(x);
+                      option.appendChild(text);
+                      aya_number_text.appendChild(option);
+
+                      }
+                  }
+                  else{
+
+                    for(let x = 0 ; x <= surahs[i].aya_number ;x++){
+
+                      let option = document.createElement("option");
+                      option.className = "number_class";
+                      option.value = x;
+                      let text = document.createTextNode(x);
+                      option.appendChild(text);
+                      aya_number_text.appendChild(option);
+
+
+                      }
+                  }           
+
+                }
+
+              }  
+              very_new_array = [];
+              aya_number_text.selectedIndex = 0 ;
+              box_aya.style.backgroundImage = "url('https://hjlogic.com/quran/001001.png')";
+              if(window.innerWidth < 1000){
+                box_aya.style.backgroundSize = "100% 15%";
+                en_trans.style.fontSize = "13px";
+              }
+              else   
+                box_aya.style.backgroundSize = "1000px 200px";
+              en_trans.textContent = "In the name of Allah, the Entirely Merciful, the Especially Merciful";
+              aya_audio.setAttribute("src" , `https://verse.mp3quran.net/arabic/${reciters_names.value}/${reciters_names.value == 'ali_jaber' ? '64' : '128'}/001001.mp3`);
+              aya_audio.load();
+              aya_audio.play();
+              icon.className = "fas fa-pause";
+        
+            }
+            else{
+
+              $.ajax({
+
+                method : "GET" ,
+                url : `https://api.mp3quran.net/api/aya?surah=${surahs[surah_number].id}&aya=${convection_array[aya_number].split(":")[1]}&language=en` ,
+                dataType : "json" ,
+                success : (data) => {
+
+                  let image_url = data.image_url.split(":")[0] + "s"  + ":" + data.image_url.split(":")[1];
+                  box_aya.style.backgroundImage = `url('${image_url}')`;
+                  if(aya_number_text.value == "282"){
+
+                    if(window.innerWidth < 1000){
+
+                      box_aya.style.height = "900px";
+                      box_aya.style.backgroundSize = "100% 20%";
+                      en_trans.style.fontSize = "13px";
+
+                    }
+                    else{
+                      box_aya.style.height = "1200px";
+                      box_aya.style.backgroundSize = "1000px 500px";
+                    }    
+                  }
+                  else{
+
+                    box_aya.style.height = "500px";
+                    if(window.innerWidth < 1000){
+                      box_aya.style.backgroundSize = "100% 15%";
+                      en_trans.style.fontSize = "13px";
+                    }
+                    else  
+                      box_aya.style.backgroundSize = "1000px 150px";
+
+                  }
+                  en_trans.textContent = data.ayah_text_lang;
+                  
+                  let options = document.getElementsByClassName("number_class");
+
+                  for(let i = 0 ; i < surahs.length ;i++){
+
+                    if(surahs[i].name == surahs_names.value.split("/")[0]){
+
+                      
+                      for(let x = options.length - 1 ; x >=0  ; x--){
+
+                        options[x].parentNode.removeChild(options[x]);  
+
+                      }
+                      
+                      if(surahs[i].name == "Al-Fatihah"){
+
+                        for(let x = 1 ; x <= surahs[i].aya_number ;x++){
+
+                          let option = document.createElement("option");
+                          option.className = "number_class";
+                          option.value = x;
+                          let text = document.createTextNode(x);
+                          option.appendChild(text);
+                          aya_number_text.appendChild(option);
+
+                          }
+                      }
+                      else{
+
+                        for(let x = 0 ; x <= surahs[i].aya_number ;x++){
+
+                          let option = document.createElement("option");
+                          option.className = "number_class";
+                          option.value = x;
+                          let text = document.createTextNode(x);
+                          option.appendChild(text);
+                          aya_number_text.appendChild(option);
+
+
+                          }
+
+
+                      }
+                      
+                    
+
+                    }
+
+                  }  
+                  audio_aya_number = data.image_url.split("//")[1].split("/")[2].split(".")[0].slice(3);
+                  if(Number(audio_aya_number) < 10)
+                    new_aya_number = audio_aya_number.slice(2);
+                  else if(Number(audio_aya_number) >= 10 && Number(audio_aya_number) < 100)
+                    new_aya_number = audio_aya_number.slice(1);
+                  else
+                    new_aya_number = audio_aya_number;  
+                  audio_surah_number = data.image_url.split("//")[1].split("/")[2].split(".")[0].slice(0 , 3);
+                  download_name =  `${audio_surah_number}${audio_aya_number}`;
+                  new_array = Object.entries(aya_number_text.options);
+                  for(let i = 0 ; i < new_array.length;i++){
+
+                    very_new_array.push(new_array[i][1].value);
+
+                  }
+                  aya_number_text.selectedIndex = very_new_array.indexOf(new_aya_number);
+                  if(audio_aya_number == "006" && audio_surah_number == "114")
+                      next.setAttribute("disabled" , ""); 
+                  aya_audio.setAttribute("src" , `https://verse.mp3quran.net/arabic/${reciter_name}/${reciter_number}/${audio_surah_number}${audio_aya_number}.mp3`);
+                  aya_audio.load();
+                  aya_audio.play();
+                  icon.className = "fas fa-pause";
+
+                }
+
+              });
+
+          }
+
+            }
+
+            function reciter_name_change(){
+
+                display_aya_current.innerHTML = "00 : 00";
+
+                reciter_name = reciters_names.value;
+
+                if(icon.className == "fas fa-pause")
+                    icon.className = "fas fa-play";
+
+                if(reciter_name == "ali_jaber")
+                    reciter_number = "64"; 
+                else 
+                    reciter_number = "128";
+
+                if(aya_number_text.value == "0") 
+                  aya_audio.setAttribute("src" , `https://verse.mp3quran.net/arabic/${reciters_names.value}/${reciter_number}/001001.mp3`);
+                else   
+                  aya_audio.setAttribute("src" , `https://verse.mp3quran.net/arabic/${reciters_names.value}/${reciter_number}/${audio_surah_number}${audio_aya_number}.mp3`);
+                aya_audio.load();
+            }
+
+            function choose_state(){
+
+                aya_audio.playbackRate = speedRate == 0 ? speed.value : speedRate;
+                let icon_class_name = icon.className;
+                switch(icon_class_name){
+
+                    case "fas fa-play" :
+                        if(flag_switch == false){
+                          aya_audio.play();
+                          icon.className = "fas fa-pause";
+                          choose_btn_state.setAttribute("title" , "Pause"); 
+                          switch_btn.setAttribute("onclick" , "f_switch_btn()");
+                          console.log(switch_btn);       
+                        }
+                        else{
+                          flag_timer = 0;
+                          aya_audio.play();
+                          icon.className = "fas fa-pause";
+                          choose_btn_state.setAttribute("title" , "Pause Recording");
+                          recorded_progress.style.display = "inline";
+                          record_progress.style.display = "none";
+                          recorded_progress.style.color = "red";
+                        }
+                        break;
+                    case "fas fa-pause" : 
+                        aya_audio.pause();
+                        if(flag_switch == false)
+                          choose_btn_state.setAttribute("title" , "Play");
+                        else
+                          choose_btn_state.setAttribute("title" , "Play Recording");
+                        icon.className = "fas fa-play";
+                        break;
+                    case "fas fa-redo" :
+                      if(flag_switch == false){ 
+                          aya_audio.play();
+                          icon.className = "fas fa-pause";
+                          choose_btn_state.setAttribute("title" , "Pause");
+                          switch_btn.setAttribute("onclick" , "f_switch_btn()");
+                        }
+                        else{
+                          icon.className = "fas fa-pause";
+                          aya_audio.play();
+                          choose_btn_state.setAttribute("title" , "Pause Recording");
+                          recorded_progress.style.display = "inline";
+                          record_progress.style.display = "none";
+                          recorded_progress.style.color = "red";
+                        }
+                        break;              
+                }
+
+            }
+
+            function change_shape(){
+
+                icon.className = "fas fa-redo";
+                if(flag_switch == false){  
+                  choose_btn_state.setAttribute("title" , "Replay");
+                  switch_btn.removeAttribute("onclick");
+                }
+                else
+                  choose_btn_state.setAttribute("title" , "Replay Recording");
+
+                  if(aya_audio.getAttribute("src").split("/")[6] == "001001.mp3"){
+
+                    aya_number = aya_number + 1;
+
+                    back.removeAttribute("disabled");
+
+                    icon.className = "fas fa-pause";
+
+                    $.ajax({
+
+                    method : "GET" ,
+                    url : `https://api.mp3quran.net/api/aya?surah=${surahs[surah_number].id}&aya=${convection_array[aya_number].split(":")[1]}&language=en` ,
+                    dataType : "json" ,
+                    success : (data) => {
+
+                      let image_url = data.image_url.split(":")[0] + "s"  + ":" + data.image_url.split(":")[1];
+                      box_aya.style.backgroundImage = `url('${image_url}')`;
+                      if(window.innerWidth < 1000){
+
+                        box_aya.style.backgroundSize = "100% 15%";
+                        en_trans.style.fontSize = "13px";
+                        
+                      }
+                      en_trans.textContent = data.ayah_text_lang;
+                      audio_aya_number = data.image_url.split("//")[1].split("/")[2].split(".")[0].slice(3);
+                      audio_surah_number = data.image_url.split("//")[1].split("/")[2].split(".")[0].slice(0 , 3);
+                      download_name =  `${audio_surah_number}${audio_aya_number}`;
+                      aya_number_text.selectedIndex = 1;
+                      aya_audio.setAttribute("src" , `https://verse.mp3quran.net/arabic/${reciters_names.value}/${reciters_names.value == 'ali_jaber' ? '64' : '128'}/${audio_surah_number}${audio_aya_number}.mp3`);
+                      aya_audio.load();
+                      aya_audio.play();
+                      reciter_name = reciters_names.value;
+                      reciter_number = reciters_names.value == 'ali_jaber' ? '64' : '128';
+
+                    }
+
+                    });
+
+
+                    } 
+                  
+                     
+            }
+
+            function set_audio_speed(){
+
+                speedRate = parseFloat(speed.value);
+
+            }
+
+            var y = 0;
+
+            function  change_surah(){
+
+                display_aya_current.innerHTML = "00 : 00";
+
+                let options = document.getElementsByClassName("number_class");
+
+                for(let i = 0 ; i < surahs.length ;i++){
+
+                  if(surahs[i].name == surahs_names.value.split("/")[0]){
+
+                    
+                    for(let x = options.length - 1 ; x >=0  ; x--){
+
+                      options[x].parentNode.removeChild(options[x]);  
+
+                    }
+                    
+                    if(surahs_names.value.split("/")[0] == "At-Taubah"){
+
+                      for(let x = 1 ; x <= surahs[i].aya_number ;x++){
+
+                        let option = document.createElement("option");
+                        option.className = "number_class";
+                        option.value = x;
+                        let text = document.createTextNode(x);
+                        option.appendChild(text);
+                        aya_number_text.appendChild(option);
+
+
+                        }
+
+                    }
+                    else{
+
+                      if(surahs_names.value.split("/")[0] == "Al-Fatihah"){
+
+                        for(let x = 1 ; x <= surahs[i].aya_number ;x++){
+
+                          let option = document.createElement("option");
+                          option.className = "number_class";
+                          option.value = x;
+                          let text = document.createTextNode(x);
+                          option.appendChild(text);
+                          aya_number_text.appendChild(option);
+
+
+                          }
+
+                      }
+
+                      else{
+
+                      for(let x = 0 ; x <= surahs[i].aya_number ;x++){
+
+                        let option = document.createElement("option");
+                        option.className = "number_class";
+                        option.value = x;
+                        let text = document.createTextNode(x);
+                        option.appendChild(text);
+                        aya_number_text.appendChild(option);
+
+
+                        }
+                      }
+
+                    }
+                    
+
+                  }
+                
+                }  
+
+                if(surahs_names.value.split("/")[1] == "1" && aya_number_text.value == "1"){
+                    back.setAttribute("disabled" , "");
+                    if(next.hasAttribute("disabled"))
+                      next.removeAttribute("disabled");
+                }
+                else
+                    back.removeAttribute("disabled");    
+                if(surahs_names.value.split("/")[1] == "114" && aya_number_text.value == "6")
+                    next.setAttribute("disabled" , "");
+                else
+                    next.removeAttribute("disabled");
+
+                if(icon.className == "fas fa-pause" || icon.className == "fas fa-redo")
+                    icon.className = "fas fa-play";
+                    
+                //aya_number = Number(aya_number_text.value);
+
+                convection_text = surahs_names.value.split("/")[0] + ":" + aya_number_text.value;
+
+                console.log(convection_text);
+
+                for(let i = 0 ;i < convection_array.length;i++){
+
+                  if(convection_array[i] == convection_text){
+
+                    aya_number = i;
+
+                    console.log(i);
+
+                  }
+
+                }
+                surah_number = Number(surahs_names.value.split("/")[1]) - 1;
+                
+                if(aya_number_text.value == "0")
+                {
+
+                  box_aya.style.backgroundImage = "url('https://hjlogic.com/quran/001001.png')";
+                  if(window.innerWidth < 1000){
+
+                    box_aya.style.backgroundSize = "100% 15%";
+                    en_trans.style.fontSize = "13px";
+
+                  }
+                  else
+                    box_aya.style.backgroundSize = "1000px 200px";
+                  en_trans.textContent = "In the name of Allah, the Entirely Merciful, the Especially Merciful";
+                  aya_audio.setAttribute("src" , `https://verse.mp3quran.net/arabic/${reciters_names.value}/${reciters_names.value == 'ali_jaber' ? '64' : '128'}/001001.mp3`);
+                  aya_audio.load();
+
+                }
+                else{
+
+                $.ajax({
+
+                    method : "GET" ,
+                    url : `https://api.mp3quran.net/api/aya?surah=${surahs_names.value.split("/")[1]}&aya=${aya_number_text.value}&language=en` ,
+                    dataType : "json" ,
+                    success : (data) => {
+                      let image_url = data.image_url.split(":")[0] + "s" + ":" + data.image_url.split(":")[1];
+
+                        box_aya.style.backgroundImage = `url('${image_url}')`;
+                        if(aya_number_text.value == "282"){
+
+                          if(window.innerWidth < 1000){
+                            box_aya.style.height = "900px";
+                            box_aya.style.backgroundSize = "100% 20%";
+                            en_trans.style.fontSize = "13px";
+                          }
+                          else{
+                            box_aya.style.height = "1200px";
+                            box_aya.style.backgroundSize = "1000px 500px";
+                          }  
+                          }
+                          else{
+
+                          box_aya.style.height = "500px"
+                          if(window.innerWidth  < 1000){
+                            box_aya.style.backgroundSize = "100% 15%";
+                            en_trans.style.fontSize = "13px";
+                          }
+                          else
+                            box_aya.style.backgroundSize = "1000px 150px";
+
+                        }
+                        en_trans.textContent = data.ayah_text_lang;
+                        audio_aya_number = data.image_url.split("//")[1].split("/")[2].split(".")[0].slice(3);
+                        audio_surah_number = data.image_url.split("//")[1].split("/")[2].split(".")[0].slice(0 , 3);
+                        download_name =  `${audio_surah_number}${audio_aya_number}`; 
+                        aya_audio.setAttribute("src" , `https://verse.mp3quran.net/arabic/${reciter_name}/${reciter_number}/${audio_surah_number}${audio_aya_number}.mp3`);
+                        aya_audio.load();  
+                
+                    }
+
+                });
+
+              }
+
+            }
+
+            function change_aya(){
+
+                console.log(aya_number_text.selectedIndex);
+
+                display_aya_current.innerHTML = "00 : 00";
+
+                if(surahs_names.value.split("/")[1] == "1" && aya_number_text.value == "1"){
+                    back.setAttribute("disabled" , "");
+                    if(next.hasAttribute("disabled"))
+                      next.removeAttribute("disabled");
+                }
+                else
+                    back.removeAttribute("disabled");    
+                if(surahs_names.value.split("/")[1] == "114" && aya_number_text.value == "6")
+                    next.setAttribute("disabled" , "");
+                else
+                    next.removeAttribute("disabled");    
+                if(icon.className == "fas fa-pause" || icon.className == "fas fa-redo")
+                    icon.className = "fas fa-play";
+                    
+                //aya_number = Number(aya_number_text.value);
+                convection_text = surahs_names.value.split("/")[0] + ":" + aya_number_text.value;
+
+                for(let i = 0 ;i < convection_array.length;i++){
+
+                  if(convection_array[i] == convection_text){
+
+                    aya_number = i;
+
+                  }
+
+                }
+                surah_number = Number(surahs_names.value.split("/")[1]) - 1;
+
+                if(aya_number_text.value == "0"){
+
+                  box_aya.style.backgroundImage = "url('https://hjlogic.com/quran/001001.png')";
+                  
+                  if(window.innerWidth < 1000){
+
+                    box_aya.style.backgroundSize = "100% 15%";
+                    en_trans.style.fontSize = "13px";
+
+                  }
+                  else
+                    box_aya.style.backgroundSize = "1000px 200px";
+                  en_trans.textContent = "In the name of Allah, the Entirely Merciful, the Especially Merciful";
+                  aya_audio.setAttribute("src" , `https://verse.mp3quran.net/arabic/${reciters_names.value}/${reciters_names.value == 'ali_jaber' ? '64' : '128'}/001001.mp3`);
+                  aya_audio.load();
+
+                }
+              else{
+                  $.ajax({
+
+                      method : "GET" ,
+                      url : `https://api.mp3quran.net/api/aya?surah=${surahs_names.value.split("/")[1]}&aya=${aya_number_text.value}&language=en` ,
+                      dataType : "json" ,
+                      success : (data) => {
+                          let image_url = data.image_url.split(":")[0] + "s"  + ":" + data.image_url.split(":")[1];
+                          box_aya.style.backgroundImage = `url('${image_url}')`;
+                          if(aya_number_text.value == "282"){
+
+                            if(window.innerWidth < 1000){
+
+                              box_aya.style.height = "900px";
+                              box_aya.style.backgroundSize = "100% 20%";
+                              en_trans.style.fontSize = "13px";
+
+                            }
+                            else{
+                              box_aya.style.height = "1200px";
+                              box_aya.style.backgroundSize = "1000px 500px";
+                            }   
+                          }
+                            else{
+
+                            box_aya.style.height = "500px"
+                            if(window.innerWidth  < 1000){
+
+                              box_aya.style.backgroundSize = "100% 15%";
+                              en_trans.style.fontSize = "13px";
+                            }
+                            else
+                              box_aya.style.backgroundSize = "1000px 150px";
+
+                          }
+                          en_trans.textContent = data.ayah_text_lang;
+                          audio_aya_number = data.image_url.split("//")[1].split("/")[2].split(".")[0].slice(3);
+                          audio_surah_number = data.image_url.split("//")[1].split("/")[2].split(".")[0].slice(0 , 3);
+                          download_name =  `${audio_surah_number}${audio_aya_number}`; 
+                          aya_audio.setAttribute("src" , `https://verse.mp3quran.net/arabic/${reciter_name}/${reciter_number}/${audio_surah_number}${audio_aya_number}.mp3`);
+                          aya_audio.load();  
+
+                      }
+
+                  });
+              }
+
+              }
+
+              function work_timer(){
+
+                if(init_seconds == 60){
+
+                  init_seconds = 0;
+                  init_minutes++
+                  minutes.innerHTML  = init_minutes  < 10 ? `0${init_minutes}` : init_minutes;
+
+                }
+                
+                seconds.innerHTML = init_seconds < 10 ? `0${init_seconds}` : init_seconds;
+
+                duration_time = init_seconds + (init_minutes * 60);
+
+                init_seconds++;
+
+                return_time_out = setTimeout(work_timer , 1000);
+
+              }
+
+              record.onclick = ()=>{
+
+                icon.className = "fas fa-play";
+                icon.style.color = "red";
+                recorded_progress.style.display = "none";
+                record_progress.style.display = "inline";
+                aya_progress.style.display = "none";
+                record_progress.style.color = "red"; 
+                switch_btn.removeAttribute("onclick");
+                back.setAttribute("disabled" , "");
+                next.setAttribute("disabled" , "");
+                cont_download.style.display = "none";
+                switch_btn.style.display = "none";
+                choose_btn_state.style.display = "none";
+                back.style.display = "none";
+                next.style.display = "none";
+                seconds.innerHTML = "00";
+                minutes.innerHTML = "00";
+                flag_duration = true;
+                flag_switch = true; 
+                init_minutes = 0;
+                init_seconds = 0; 
+                device = navigator.mediaDevices.getUserMedia({audio : true}).then(stream => {
+
+                  recorder = new MediaRecorder(stream);
+
+                  recorder.ondataavailable = (e)=>{
+
+                    items.push(e.data);
+
+                    if(recorder.state == "inactive"){
+
+                      const blob = new Blob( items , {'type' : 'video/webm'});
+                      let src = URL.createObjectURL(blob);
+                      aya_audio.removeAttribute("src");  
+                      aya_audio.setAttribute("src" , src);
+                      download.setAttribute("href" , src);
+                      download.setAttribute("download" , `${download_name}.webm`);
+                      download.setAttribute("title" , `Download Recording`);
+                      cont_download.style.display = "inline";  
+                    }
+
+                  }
+
+                  recorder.start();
+                  work_timer();
+
+                  stop_record.style.display = "inline";
+                  record.style.display = "none";
+
+                });
+
+              }
+
+              stop_record.onclick = ()=>{
+
+                items.shift();
+                recorder.stop();
+                clearTimeout(return_time_out);
+                recorded_duration_minutes.innerHTML = (duration_time/60) > 10  ? (duration_time/60).toString().split(".")[0] : `0${(duration_time/60).toString().split(".")[0]}`;
+                recorded_duration_seconds.innerHTML = (duration_time%60) > 10 ? (duration_time%60).toString().split(".")[0] : `0${(duration_time%60).toString().split(".")[0]}`;  
+                icon.className = "fas fa-play";
+                stop_record.style.display = "none";
+                record.style.display = "inline";
+                record_progress.style.display = "none";
+                recorded_progress.style.display = "inline";
+                recorded_progress.style.margin = "0px 5px 0px 5px";
+                recorded_progress.style.color = "red"; 
+                switch_btn.setAttribute("onclick" , "f_switch_btn()");
+                switch_btn.style.display = "inline";
+                choose_btn_state.style.display = "inline";
+                choose_btn_state.setAttribute("title" , "Play Recording");
+  
+              }
+
+              function f_switch_btn(){
+                
+                if(flag_switch == false){
+
+                  aya_audio.currentTime = 0;
+                  aya_audio.pause();
+                  icon.className = "fas fa-play";
+                  switch_btn.removeAttribute("onclick");
+
+                }
+                else{
+                  
+                  if(en_trans.innerText != "In the name of Allah, the Entirely Merciful, the Especially Merciful.")
+                    back.removeAttribute("disabled");
+                  if(en_trans.innerText != `From among the jinn and mankind."`)
+                    next.removeAttribute("disabled");  
+                  icon.className = "fas fa-play";
+                  icon.style.color = "black";
+                  record_progress.style.display = "none";
+                  recorded_progress.style.display = "none";
+                  aya_progress.style.display = "inline";
+                  aya_audio.setAttribute("src" , `https://verse.mp3quran.net/arabic/${reciter_name}/${reciter_number}/${audio_surah_number}${audio_aya_number}.mp3`);
+                  aya_audio.load();
+                  switch_btn.removeAttribute("onclick");
+                  flag_switch = false;
+                  flag_duration = false;
+                  cont_download.style.display = "none";
+                  display_aya_current.innerHTML = "00 : 00";
+                  choose_btn_state.setAttribute("title" , "play");
+                  back.style.display = "inline";
+                  next.style.display = "inline"; 
+                  choose_btn_state.setAttribute("title" , "play");
+
+                }
+
+
+              }
+            aya_audio.onloadedmetadata = ()=>{
+
+              let duration = aya_audio.duration;
+              aya_duration_minutes.innerHTML = (duration/60) > 10  ? (duration/60).toString().split(".")[0] : `0${(duration/60).toString().split(".")[0]}`;
+              aya_duration_seconds.innerHTML = (duration%60) > 10 ? (duration%60).toString().split(".")[0] : `0${(duration%60).toString().split(".")[0]}`;  
+              
+            }
+
+          function displayCurrentTime(current){
+
+            aya_minutes = Math.floor(current / 60);
+
+            aya_seconds = Math.floor(current - (aya_minutes * 60));
+            
+            return `${aya_minutes  >= 10  ? aya_minutes  : '0' + aya_minutes} : ${aya_seconds >= 10 ? aya_seconds : '0' + aya_seconds}`;
+
+          }  
+
+          function progress(){
+
+            if(flag_duration == false)
+
+              display_aya_current.innerHTML = displayCurrentTime(aya_audio.currentTime);
+            
+            else
+            
+              display_current_recorded.innerHTML = displayCurrentTime(aya_audio.currentTime);
+
+          }   
+          
+</script>

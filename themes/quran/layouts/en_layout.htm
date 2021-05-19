@@ -1,0 +1,69 @@
+description = "english_layout"
+
+==
+
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+
+        <meta charset="utf-8">
+
+        <title>{{ this.page.title }}</title>
+
+        <meta name="description" content="{{ this.page.meta_description }}">
+
+        <meta name="title" content="{{ this.page.meta_title }}">
+
+        <meta name="author" content="OctoberCMS">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <meta name="generator" content="OctoberCMS">
+
+        <link rel="icon" type="image/ico" href="https://bahrenoor.com/themes/quran/assets/images/icon.ico">
+        <link href="https://bahrenoor.com/themes/quran/assets/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+	    <link href="https://bahrenoor.com/themes/quran/assets/vendor/font-awesome/css/all.css" rel="stylesheet">
+	    <script src="https://bahrenoor.com/themes/quran/assets/vendor/jquery.js"></script>	
+	    <script src="https://unpkg.com/vue@2.2.1"></script>
+        
+	{% styles %}
+
+    </head>
+
+    <body>
+
+
+
+        <!-- Header -->
+
+
+
+	{% partial 'english/header' %}
+
+      
+
+        <!-- Content -->
+
+        <section id="layout-content">
+
+            {% page %}
+
+        </section>
+
+
+
+        <!-- Footer -->
+
+        {% partial 'english/footer' %}    
+
+        <!-- Scripts -->
+
+        <script src="https://bahrenoor.com/themes/quran/assets/vendor/bootstrap/js/bootstrap.js"></script>
+        <script src="https://bahrenoor.com/themes/quran/assets/js/tajweed.js"></script>
+
+    </body>
+
+</html>
+

@@ -1,0 +1,477 @@
+title = "القراء"
+url = "/ar_reciters"
+layout = "ar_layout"
+==
+
+
+<style scoped>
+
+  [v-cloak]{
+
+    display : none;
+
+  }
+
+ #search_cont{
+
+  text-align :right;
+
+ } 
+
+#top_container{
+
+  position : fixed;
+  top : 54px;
+  padding-bottom : 30px;
+  width : 100%;
+  background-color: white;
+
+}
+
+#search_word{
+
+  margin-right : 20px;
+  border : none;
+  text-align  :left;
+  font-size : 20px;
+  font-weight : bold;
+  margin-right : 20px;
+
+}
+
+#table_container {
+
+  padding-top: 250px;
+  font-size : 15px;
+  font-weight : bold; 
+
+}
+
+#search{
+
+  width : 20%;
+  border : 2px solid;
+  border-radius : 5px;
+  font-size : 20px;
+  padding : 2px 10px 2px 0px;
+
+}
+
+.router{
+
+  color : white;
+  padding : 5px 20px;
+  border : 1px solid  white;
+  text-decoration : none;
+  border-radius : 10px;
+  transition : border .5s; 
+
+}
+
+.router:hover{
+
+  background : #42b983;
+  border : 3px solid black;
+  color : white;
+  text-decoration : none;
+  border-radius : 10px;
+
+}
+
+h1{
+   font-size: 20px; 
+   margin: 50px auto 50px auto;
+   padding : 5px 20px;
+   width : 30%;
+   border : 2px solid;
+   border-radius : 20px;
+   
+}
+
+.hide{
+
+  display : none;
+
+}
+@media(max-width : 1000px){
+
+  #search_cont{
+
+    text-align : center;
+
+  }
+
+  #dotes{
+
+    display : none;
+
+  }
+  
+  #rec_name , #rew_name{
+
+    display :block;
+    text-align : center;
+    padding-bottom : 10px;
+
+  }
+
+  #table_2 tbody tr td{
+
+    display : block;
+    text-align : center;
+
+  }
+
+  #table{
+
+    display : none;
+
+  }
+
+  #search{
+
+    width : 60%;
+
+  }
+
+  h1{
+
+    width : 70%;
+
+  }
+
+  table thead tr td{
+
+    font-size : 15px;
+
+  }
+
+  table tbody tr td{
+
+    font-size : 15px;
+
+  }
+
+  table tbody tr td .router{
+
+    width : 200px;
+    font-size : 13px;
+
+  }
+
+  #top_container{
+
+    top : 215px;
+
+  }
+
+  #table_container{
+
+    padding-top: 430px;
+
+
+  }
+
+  #search_word{
+
+    display : block;
+    text-align : center;
+    margin-bottom: 10px;
+
+  }
+
+}
+</style>
+
+
+{% verbatim %}
+
+  <div id="app">
+    <div class="about">
+      <div id="top_container" ref="top_container">
+        <!-- <div style="margin : 30px 0px">
+          <button class="btn btn-success btn-lg" ref="change_array_btn" @click="change_array">ar_reciters</button>  
+        </div>  -->
+        <h1 style="font-size : 22px;text-align : center" v-cloak>{{page_name}}</h1>
+        <div ref="search_cont" id="search_cont" dir="rtl">
+          <span id="search_word">بحث <span id="dotes">:</span></span>
+          <input type="text" ref="search" id="search" @keyup="search" :placeholder="place_hold">
+        </div>
+      </div>
+      <div id="table_container" ref="table_container">
+        <table class="table table-dark table-striped" ref="table" style="margin : 30px 0px" dir="rtl" class="hide" id="table">
+          <thead>
+
+              <tr style="font-size : 17px;">
+                <td ref="reciter" style="text-align : start;padding : 10px 50px">القارئ</td>
+                <td ref="rewaya" style="text-align : end;padding : 10px 60px">الرواية</td>
+              </tr>
+
+          </thead>
+          <tbody>
+            <tr style="font-size : 15px;" v-for="(reciter , index) in reciter_info" v-bind:key="reciter.index">
+              <td style="text-align : start" v-cloak>
+                  {{index + 1}} - {{reciter.name}}
+              </td>
+              <td style="text-align : end" v-cloak>
+                  <a class="router" 
+                    :href="'/reciter_ar_info/' +  reciter.name + '/' + reciter.rewaya + '/' + reciter.id">
+                    {{reciter.rewaya}} 
+                  <a>
+              </td>
+            </tr>    
+          </tbody>
+        </table>
+
+        <table class="table table-dark table-striped borderless hide" ref="table" style="margin : 30px 0px" dir="rtl" id="table_2">
+          <tbody>
+            <tr style="font-size : 15px;" v-for="(reciter , index) in reciter_info" v-bind:key="reciter.index">
+              <td v-cloak>
+                  <span id="rec_name">القارئ</span>
+                  {{index + 1}} - {{reciter.name}}
+              </td>
+              <td v-cloak>
+                  <span id="rew_name">الراوية</span>
+                  <a class="router" 
+                    :href="'/reciter_ar_info/' +  reciter.name + '/' + reciter.rewaya + '/' + reciter.id">
+                    {{reciter.rewaya}} 
+                  <a>
+              </td>
+            </tr>    
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  
+{% endverbatim %}
+
+<script>
+
+window.onload = function(){
+
+  const table_2 = document.getElementById("table_2");
+
+  if(window.innerWidth <= 1000) table_2.classList.remove("hide");
+
+}  
+
+var array_en;  
+
+$.ajax({
+
+  url : "https://mp3quran.net/api/_arabic.php" ,
+  async : false ,
+  dataType : "json" ,
+  success : function (data){
+
+    array_en  = data.reciters;
+
+  }
+
+
+}); 
+
+console.log(array_en);
+
+
+new Vue({
+
+    el : "#app" ,
+
+    created () {
+        window.addEventListener('scroll', this.handleScroll);
+        window.scroll( 0 ,  0);
+      },
+    destroyed () {
+        window.removeEventListener('scroll', this.handleScroll);
+      },
+    
+  data: () => {
+    return {
+      json_info_en : array_en,
+      reciter_info: array_en ,
+      json_info : [] ,
+      reciter_name : "" ,
+      rewaya_name : "" ,
+      name_route : "english_rec_info",
+      page_name : "قراء القرآن الكريم" ,
+      search_name : "" ,
+      place_hold : "القارئ" ,
+      lastScrollTop : 0 ,
+    };
+  },
+
+  methods : {
+
+      handleScroll : function (){
+
+          var stv = window.scrollY;
+
+          var top_container = this.$refs.top_container;
+
+          var table_container = this.$refs.table_container;
+
+          if (stv > this.lastScrollTop){
+              // downscroll code
+            
+
+              top_container.style.position = "fixed";
+              top_container.style.backgroundColor = "white";
+              if(window.innerWidth < 1000){
+                top_container.style.top = "215px";
+                table_container.style.paddingTop = "430px";
+              } 
+              else{
+                top_container.style.top = "50px";
+                table_container.style.paddingTop = "250px";
+              } 
+              top_container.style.width = "100%";
+              top_container.style.paddingBottom = "30px";
+
+          }
+      
+        }
+
+      ,
+
+    change_rewaya : function (rewaya){
+
+      const router = document.getElementsByClassName("router");
+
+      let new_rewaya = rewaya.replace("Rewayat" , "");
+
+      return new_rewaya;
+
+    }  
+    ,
+    change_array : function (){
+
+      var change_btn = this.$refs.change_array_btn;
+
+      var table = this.$refs.table;
+
+      var search_cont = this.$refs.search_cont;
+
+      var reciter = this.$refs.reciter;
+
+      var rewaya = this.$refs.rewaya;
+
+      if(this.reciter_info === this.json_info_en){
+
+        search_cont.style.textAlign = "right";
+
+        this.place_hold = "القارئ";
+
+        search_cont.dir = "rtl";
+
+        this.search_name = " بحث : "; 
+
+        this.page_name = "قراء القرآن الكريم";
+
+        this.reciter_name = "القارئ";
+
+        this.rewaya_name = "الرواية";
+
+        table.dir = "rtl";
+
+        change_btn.innerHTML = "en_reciters";
+
+        this.name_route = "arab_rec_info";
+
+        rewaya.style.padding = "10px 40px";
+
+        reciter.style.padding = "10px 40px";
+
+        this.reciter_info = this.json_info_ar;
+
+        this.json_info = this.json_info_ar;
+
+
+      }
+
+      else{
+
+        search_cont.style.textAlign = "left";
+
+        this.place_hold = "Reciter";
+
+        search_cont.dir = "ltr";
+
+        this.search_name = "Search : ";
+
+        this.page_name = "Reciters Of Holy Quran";
+
+        this.reciter_name = "Reciter";
+
+        this.rewaya_name = "Rewaya";
+
+        table.dir = "ltr";
+
+        change_btn.innerHTML = "ar_reciters";
+
+        this.name_route = "english_rec_info";
+
+        this.reciter_info = this.json_info_en;
+
+        this.json_info = this.json_info_en;
+
+      }
+
+    }
+    ,
+    ret_value : function (server){
+
+      var new_server = server.replace("//" , "&&")
+      var s_new_server = new_server.replace("/" , "&");
+      var v_s_new_server = s_new_server.replace("/" , "&");
+      var m_s_new_server =  v_s_new_server.replace(".mp3quran.net" , "m");
+      var r_s_new_server = m_s_new_server.replace("server" , "g");
+      var h_s_new_server =  r_s_new_server.replace("https" , "h");
+
+
+      return h_s_new_server;
+
+    } , 
+    search :  function (){
+
+      var array_json = [];
+
+      var array_middle = [];
+
+      var search_input = this.$refs.search;
+
+      if(this.json_info.length === 0){
+
+        array_middle = this.json_info_en;
+        
+      }
+
+      else{
+
+        array_middle = this.json_info;
+
+
+      }
+
+      for(var s = 0 ; s < array_middle.length; s++){
+          
+          if(array_middle[s].name.includes(search_input.value)){
+
+              array_json.push(array_middle[s]);
+            
+
+          }
+
+        }
+
+        console.log(array_json);
+
+      this.reciter_info = array_json;
+
+}
+
+  }
+  });
+</script>

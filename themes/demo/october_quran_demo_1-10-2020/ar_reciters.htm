@@ -1,0 +1,91 @@
+title = "ar_reciters"
+url = "/ar_reciters"
+layout = "default"
+==
+
+	function onStart(){
+		
+		$ar_reciters = file_get_contents("themes/demo/pages/json_files/ar_reciters.json");
+		
+		$ar_reciters = json_decode($ar_reciters);
+		
+		$this["ara_reciters"] = $ar_reciters->reciters;
+
+
+	}	
+==
+
+
+<style>
+
+  .rewaya{
+
+    text-decoration: none;
+    color : white;
+    border : 1px solid white;
+    border-radius : 5px; 
+    padding : 5px 20px;
+
+
+  }
+
+  .rewaya:hover {
+
+    border : 3px solid white;
+    border-radius : 10px;
+    background-color: green;
+    color : white;
+    text-decoration: none;
+    
+
+  }
+
+  .table{
+
+    font-weight : bold;
+
+  }
+
+  #title{
+
+    text-align : center;
+    font-weight : bold;
+    font-size : 30px;
+    border : 1px solid;
+    border-radius : 10px;
+    padding : 5px 20px;
+    margin : 100px auto 50px auto;
+    width : 30%;
+
+  }
+
+</style>
+
+
+
+<p id="title">قراء القرآن الكريم</p>
+
+
+
+<div>
+
+
+<table dir="rtl" class="table table-dark table-striped">
+  <thead>
+    <tr>
+      <th style="text-align : start;padding-right : 40px;">القارئ</th>
+      <th style="text-align : end;padding-left : 60px">الرواية</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for  index, reciter in ara_reciters %}
+    <tr>
+      <td style="text-align: start;">{{index + 1}} - {{reciter.name}}</td>
+      <td style="text-align : end">
+        <a href="{{ 'reciter_ar_info'|page({ reciter_name : reciter.name ,  rewaya_name : reciter.rewaya , id : reciter.id }) }}" class="rewaya">{{reciter.rewaya}}</a>
+      </td>    		
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>

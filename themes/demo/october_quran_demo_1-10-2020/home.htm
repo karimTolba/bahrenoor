@@ -1,0 +1,51 @@
+title = "home_page"
+url = "/"
+layout = "default"
+
+==
+
+
+<div id="app" style="margin-top : 200px">
+	
+	{% verbatim %}
+		<p>Hello {{ name }}, {{age}} , {{drug}} this is parsed by AngularJS</p>
+	{% endverbatim %}
+
+</div>
+
+
+ <script>
+
+	window.onload = function (){
+
+        new Vue({
+
+            el : "#app",
+
+            data(){
+
+                return {
+
+                name : "karim" ,
+		age : 30 ,
+		drug : "mo" , 		
+
+
+                }
+
+            }
+
+
+        });
+
+	}	
+
+  </script>
+
+
+
+
+
+
+
+   

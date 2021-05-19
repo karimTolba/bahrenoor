@@ -1,0 +1,92 @@
+title = "en_reciters"
+url = "/en_reciters"
+layout = "default"
+==
+
+	function onStart(){
+		
+		$en_reciters = file_get_contents("themes/demo/pages/json_files/en_reciters.json");
+		
+		$en_reciters = json_decode($en_reciters);
+		
+		$this["eng_reciters"] = $en_reciters->reciters;
+
+
+	}	
+==
+
+
+<style>
+
+  .rewaya{
+
+    text-decoration: none;
+    color : white;
+    border : 1px solid white;
+    border-radius : 5px; 
+    padding : 5px 20px;
+
+
+  }
+
+  .rewaya:hover {
+
+    border : 3px solid white;
+    border-radius : 10px;
+    background-color: green;
+    color : white;
+    text-decoration: none;
+    
+
+  }
+
+  .table{
+
+    font-weight : bold;
+
+  }
+
+  #title{
+
+    text-align : center;
+    font-weight : bold;
+    font-size : 30px;
+    border : 1px solid;
+    border-radius : 10px;
+    padding : 5px 20px;
+    margin : 100px auto 50px auto;
+    width : 30%;
+
+  }
+
+</style>
+
+
+
+<p id="title">Qur'an Reciter</p>
+
+
+
+<div>
+
+
+<table class="table table-dark table-striped">
+  <thead>
+    <tr>
+      <th style="text-align : start;padding-left : 70px;">Reciter</th>
+      <th style="text-align : end;padding-right : 80px">Rewaya</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for  index, reciter in eng_reciters %}
+    <tr>
+      <td style="text-align: start;">{{index + 1}} - {{reciter.name}}</td>
+      <td style="text-align : end">
+        <a href="#" class="rewaya">{{reciter.rewaya}}</a>
+      </td>    		
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+</div>

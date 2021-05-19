@@ -1,0 +1,15 @@
+columns:
+    name:
+        label: Name
+        type: text
+        searchable: true
+        sortable: true
+    age:
+        label: Age
+        type: text
+        searchable: true
+        sortable: true
+    address:
+        label: Address
+        type: text
+        sortable: true

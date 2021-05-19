@@ -1,0 +1,10 @@
+name: Specials
+form: $/character/special/models/special/fields.yaml
+modelClass: Character\Special\Models\Special
+defaultRedirect: character/special/specials
+create:
+    redirect: 'character/special/specials/update/:id'
+    redirectClose: character/special/specials
+update:
+    redirect: character/special/specials
+    redirectClose: character/special/specials

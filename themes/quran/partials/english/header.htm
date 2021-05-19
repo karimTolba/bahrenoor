@@ -1,0 +1,209 @@
+
+==
+
+    function onStart(){
+
+        $this["current_page"] = $this->pageUrl('');
+
+        if($this["current_page"] == "https://bahrenoor.com" || $this["current_page"] == "http://bahrenoor.com" || $this["current_page"] == "https://www.bahrenoor.com" || $this["current_page"] == "http://www.bahrenoor.com")
+
+        $this["current_page"] = "https://bahrenoor.com/arabic";
+
+        else if($this["current_page"] == "https://bahrenoor.com/en_reciters" || $this["current_page"] == "http://bahrenoor.com/en_reciters" || $this["current_page"] == "https://www.bahrenoor.com/en_reciters" || $this["current_page"] == "http://www.bahrenoor.com/en_reciters")
+
+        $this["current_page"] = "https://bahrenoor.com/ar_reciters";
+
+        else if($this["current_page"] == "https://bahrenoor.com/tajweed" || $this["current_page"] == "http://bahrenoor.com/tajweed" || $this["current_page"] == "https://www.bahrenoor.com/tajweed" || $this["current_page"] == "http://www.bahrenoor.com/tajweed")
+
+        $this["current_page"] = "https://bahrenoor.com/tajweed_ar";
+
+        else if($this["current_page"] == "https://bahrenoor.com/memorize" || $this["current_page"] == "http://bahrenoor.com/memorize" || $this["current_page"] == "https://www.bahrenoor.com/memorize" || $this["current_page"] == "http://www.bahrenoor.com/memorize")
+
+        $this["current_page"] = "https://bahrenoor.com/memorize_ar";
+
+        else{
+
+            $result_en = Http::get("https://mp3quran.net/api/_arabic.php");
+
+            $result_en_array = json_decode($result_en->body)->reciters;
+
+            $ret = explode("/" , $this["current_page"]);
+
+            foreach($result_en_array as $value){
+
+                if(isset($ret[6])){
+
+                    if($ret[6] == $value->id){
+
+                    $this["current_page"] =  "https://bahrenoor.com/reciter_ar_info/".$value->name."/".$value->rewaya."/".$value->id;
+
+                    }
+                }
+                else $this["current_page"] = $this->pageUrl('');
+
+            }
+
+
+        }
+
+
+    }
+
+==
+
+<style>
+
+    nav{
+
+        background-color: #343a40;
+        color : white;
+        height : 50px;
+        padding : 0px 20px;
+        position: fixed;
+        width : 100%;
+        top : 0px;
+
+    }
+    a{
+
+        color : white;
+        text-decoration: none;
+
+    }
+
+    ul{
+
+        list-style-type: none; 
+        display : inline-block;
+        padding : 0px;
+        margin : 5px;     
+
+    }
+
+    ul li{
+
+        display: inline;       
+
+    }
+
+    #right_header{
+
+        float : right;
+        margin-top : 13px;
+        margin-right : 40px; 
+
+    }
+    #brand{
+
+        font-size: 24px;
+        font-weight : bold;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+
+    }
+    #brand{
+
+        color : white;
+        text-decoration:none;
+
+    }
+    .nav_link{
+
+        padding : 5px 10px;
+        border : 1px solid green;
+        border-radius : 5px;
+        font-size : 17px;
+        margin : 0px 20px;
+
+    }
+    .nav_link:hover{
+
+        background-color: green;
+        text-decoration: none;
+        color : white;            
+
+    }
+
+    .rounded{
+
+        background-color :transparent;
+        color : white;
+        border : 1px solid green;
+        font-size : 20px;
+    
+    }
+
+    @media(max-width : 1000px){
+
+        ul ,nav{
+
+            padding : 0px;
+            margin : 0px;
+
+        }
+
+        ul , ul li{
+
+            display : block;
+            width : 100%;
+            text-align : center;
+        }
+
+        ul li a.nav_link{
+
+            border : none;
+
+        }
+        #right_header{
+
+            float : none;
+            margin : 0px;
+
+        }
+
+        ul li {
+
+            border-bottom: 2px solid white;
+            padding : 7px 0px;
+
+        }
+        nav{
+
+            height : 258px;
+
+        }   
+
+    }
+</style>
+
+<nav>
+
+    <ul>
+
+        <li>
+            <a  id="brand" href="https://bahrenoor.com">Holy Qur'an</a> 
+        </li>
+        <li>
+            <a class="nav_link" href="https://bahrenoor.com">Home</a>
+        </li>
+        <li>
+            <a class="nav_link" href="https://bahrenoor.com/en_reciters">Recitation</a>
+        </li>
+        <li>
+            <a class="nav_link" href="https://bahrenoor.com/tajweed">Tajweed</a>
+        </li>
+        <li>
+            <a class="nav_link" href="https://bahrenoor.com/memorize">Memorize</a>
+        </li>
+
+    </ul>
+    <ul id="right_header">
+
+        <li>
+            <a class="nav_link" href="{{ current_page }}">عربى</a>
+        </li>
+
+    </ul>
+
+</nav>
+
+
